@@ -66,20 +66,21 @@ export const HeroSection = ({
             )}
           </div>
 
-          {/* Region Tabs */}
-          <div className="filter-row region-tabs">
+          {/* Region Filter */}
+          <div className="filter-row region-filter">
             <span className="filter-label">Region:</span>
-            <div className="chips-scroll">
+            <select
+              className="filter-select region-select"
+              value={selectedRegion}
+              onChange={(e) => setSelectedRegion(e.target.value)}
+              aria-label="Filter by region"
+            >
               {REGIONS.map((region) => (
-                <button
-                  key={region}
-                  className={`filter-chip ${selectedRegion === region ? 'active' : ''}`}
-                  onClick={() => setSelectedRegion(region)}
-                >
+                <option key={region} value={region}>
                   {region}
-                </button>
+                </option>
               ))}
-            </div>
+            </select>
           </div>
 
           {/* Secondary Controls: Budget, Sorting, Bookmarks */}
@@ -87,17 +88,21 @@ export const HeroSection = ({
             {/* Budget Tier Filter */}
             <div className="filter-group">
               <span className="filter-label">Cost Tier:</span>
-              <div className="budget-chips">
+              <select
+                className="filter-select cost-tier-select"
+                value={selectedBudget}
+                onChange={(e) => setSelectedBudget(e.target.value)}
+                aria-label="Filter by cost tier"
+              >
                 {BUDGET_TIERS.map((tier) => (
-                  <button
+                  <option
                     key={tier.id}
-                    className={`budget-chip ${selectedBudget === tier.id ? 'active' : ''}`}
-                    onClick={() => setSelectedBudget(tier.id)}
+                    value={tier.id}
                   >
                     {tier.label}
-                  </button>
+                  </option>
                 ))}
-              </div>
+              </select>
             </div>
 
             {/* Sorting */}
@@ -258,6 +263,31 @@ export const HeroSection = ({
           gap: 6px;
           white-space: nowrap;
         }
+        .filter-select,
+        .sort-select {
+          padding: 7px 34px 7px 12px;
+          background: #ffffff;
+          border: 1px solid var(--border-subtle);
+          border-radius: var(--radius-md);
+          color: var(--text-primary);
+          font-size: 0.85rem;
+          font-weight: 600;
+          outline: none;
+          cursor: pointer;
+          transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+        }
+        .filter-select:focus,
+        .sort-select:focus {
+          border-color: #0284c7;
+          box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+        }
+        .region-select {
+          flex: 1;
+          min-width: 0;
+        }
+        .cost-tier-select {
+          min-width: 205px;
+        }
         .chips-scroll {
           display: flex;
           align-items: center;
@@ -332,17 +362,6 @@ export const HeroSection = ({
           border-color: #f59e0b;
           color: #b45309;
         }
-        .sort-select {
-          padding: 6px 12px;
-          background: #ffffff;
-          border: 1px solid var(--border-subtle);
-          border-radius: var(--radius-md);
-          color: var(--text-primary);
-          font-size: 0.85rem;
-          font-weight: 600;
-          outline: none;
-          cursor: pointer;
-        }
         .bookmark-toggle-btn {
           display: flex;
           align-items: center;
@@ -399,6 +418,15 @@ export const HeroSection = ({
           .filter-secondary-row {
             flex-direction: column;
             align-items: flex-start;
+          }
+          .filter-group,
+          .region-filter {
+            width: 100%;
+          }
+          .cost-tier-select,
+          .sort-select {
+            flex: 1;
+            min-width: 0;
           }
           .hero-stats-row {
             flex-direction: column;
