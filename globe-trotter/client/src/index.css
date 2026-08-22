@@ -40,8 +40,8 @@
   --text-inverse: #ffffff;
 
   /* Typography */
-  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Instrument Serif', serif;
+  --font-body: 'Newsreader', serif;
 
   /* Radii & Crisp Light Shadows */
   --radius-sm: 8px;
@@ -86,9 +86,9 @@ body {
 /* Typography Utilities */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: 0;
   color: var(--text-primary);
 }
 
