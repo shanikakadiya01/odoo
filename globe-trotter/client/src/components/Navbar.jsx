@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Compass, Globe, MapPin, Calendar, PieChart, Sparkles, User, LogOut, Heart, Plus, ChevronDown, Palette } from 'lucide-react';
+import { Compass, Globe, MapPin, Calendar, CalendarDays, PieChart, Sparkles, User, LogOut, Heart, Plus, ChevronDown, Palette } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTrips } from '../context/TripContext';
 import { useTheme } from '../context/ThemeContext';
@@ -71,6 +71,14 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
           >
             <User size={18} />
             <span>Community</span>
+          </button>
+
+          <button
+            className={`nav-btn ${activeTab === 'calendar' ? 'active' : ''}`}
+            onClick={() => setActiveTab('calendar')}
+          >
+            <CalendarDays size={18} />
+            <span>Calendar</span>
           </button>
         </nav>
 

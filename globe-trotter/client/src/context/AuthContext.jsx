@@ -53,8 +53,8 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (name, email, password) => {
-    const res = await apiRegister(name, email, password, currency);
+  const register = async (userData) => {
+    const res = await apiRegister({ ...userData, currency });
     if (res && res.user) {
       setUser(res.user);
       setAuthModalOpen(false);

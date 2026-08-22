@@ -10,8 +10,8 @@ const generateToken = (userId) => {
 
 export const register = async (req, res) => {
   try {
-    const { name, email, password, preferredCurrency } = req.body;
-    if (!name || !email || !password) {
+    const { firstName, lastName, email, password, phone, city, country, additionalInfo, preferredCurrency } = req.body;
+    if (!firstName || !lastName || !email || !password) {
       return res.status(400).json({ error: 'Please provide all required fields' });
     }
 
@@ -23,9 +23,14 @@ export const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
       _id: `user_${Date.now()}`,
-      name,
+      firstName,
+      lastName,
       email: email.toLowerCase(),
       password: hashedPassword,
+      phone,
+      city,
+      country,
+      additionalInfo,
       preferredCurrency: preferredCurrency || 'USD'
     });
 

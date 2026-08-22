@@ -6,6 +6,7 @@ import { CityDetailModal } from './components/CityDetailModal';
 import { TripBuilder } from './components/TripBuilder';
 import { BudgetCalculator } from './components/BudgetCalculator';
 import { MyTripsView } from './components/MyTripsView';
+import { CalendarView } from './components/CalendarView';
 import { AIAssistantModal } from './components/AIAssistantModal';
 import { ShareTripModal } from './components/ShareTripModal';
 import { ThemeModal } from './components/ThemeModal';
@@ -184,6 +185,11 @@ function MainApp() {
         {/* Tab 5: Community Hub */}
         {activeTab === 'community' && (
           <CommunityHub />
+        )}
+
+        {/* Tab 6: Calendar View */}
+        {activeTab === 'calendar' && (
+          <CalendarView onSwitchToBuilder={() => setActiveTab('builder')} />
         )}
       </main>
 
