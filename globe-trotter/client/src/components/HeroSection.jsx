@@ -3,7 +3,13 @@ import { Search, Sparkles, SlidersHorizontal, MapPin, Heart, DollarSign, Award, 
 import { useAuth } from '../context/AuthContext';
 
 const REGIONS = ['All', 'Europe', 'Asia', 'North America', 'Middle East', 'Africa', 'Oceania', 'South America'];
-const BUDGET_TIERS = ['All', '$', '$$', '$$$', '$$$$'];
+const BUDGET_TIERS = [
+  { id: 'All', label: 'All' },
+  { id: '$', label: 'Budget (< ₹6k)' },
+  { id: '$$', label: 'Moderate (₹6k-₹12k)' },
+  { id: '$$$', label: 'Premium (₹12k-₹18k)' },
+  { id: '$$$$', label: 'Luxury (₹18k+)' }
+];
 
 export const HeroSection = ({
   searchQuery,
@@ -84,11 +90,11 @@ export const HeroSection = ({
               <div className="budget-chips">
                 {BUDGET_TIERS.map((tier) => (
                   <button
-                    key={tier}
-                    className={`budget-chip ${selectedBudget === tier ? 'active' : ''}`}
-                    onClick={() => setSelectedBudget(tier)}
+                    key={tier.id}
+                    className={`budget-chip ${selectedBudget === tier.id ? 'active' : ''}`}
+                    onClick={() => setSelectedBudget(tier.id)}
                   >
-                    {tier}
+                    {tier.label}
                   </button>
                 ))}
               </div>

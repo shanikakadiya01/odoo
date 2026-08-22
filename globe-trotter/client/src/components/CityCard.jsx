@@ -31,7 +31,7 @@ export const CityCard = ({ city, onOpenDetail }) => {
 
         {/* Top Floating Badges */}
         <div className="card-top-badges">
-          <span className="badge badge-coral">{city.costIndex} Cost</span>
+
           <span className="badge badge-cyan">{city.region}</span>
         </div>
 

@@ -54,7 +54,7 @@ export const CityDetailModal = ({ city, onClose }) => {
 
           {/* City Badge Info */}
           <div className="modal-hero-badge-group">
-            <span className="badge badge-coral">{city.costIndex} Cost Tier</span>
+
             <span className="badge badge-cyan">{city.region}</span>
             <span className="badge badge-amber">{city.popularityScore}% Popularity</span>
           </div>
