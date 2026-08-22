@@ -25,7 +25,6 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
             <span className="brand-title">
               GLOBE<span className="gradient-text-sunset">TROTTER</span>
             </span>
-            <span className="brand-tagline">Multi-City Travel Planner</span>
           </div>
         </div>
 
