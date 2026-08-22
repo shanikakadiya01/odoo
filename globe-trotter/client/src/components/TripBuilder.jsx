@@ -88,13 +88,22 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
 
   const handleStartDateChange = (e) => {
     const newStart = e.target.value;
+
+    if (newStart) {
+      const year = newStart.split('-')[0];
+      if (year.length > 4 || parseInt(year, 10) > 2099) {
+        setDateError('Please enter a valid year.');
+        return;
+      }
+    }
+
     setLocalStartDate(newStart);
     
     if (newStart && localEndDate && newStart > localEndDate) {
       setLocalEndDate(newStart);
       setDateError('End date was auto-adjusted to match start date.');
       setTimeout(() => setDateError(''), 3000);
-    } else if (newStart < todayStr) {
+    } else if (newStart && newStart < todayStr) {
       setDateError('Start date cannot be in the past.');
     } else {
       setDateError('');
@@ -103,11 +112,20 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
 
   const handleEndDateChange = (e) => {
     const newEnd = e.target.value;
+
+    if (newEnd) {
+      const year = newEnd.split('-')[0];
+      if (year.length > 4 || parseInt(year, 10) > 2099) {
+        setDateError('Please enter a valid year.');
+        return;
+      }
+    }
+
     setLocalEndDate(newEnd);
     
     if (newEnd && localStartDate && newEnd < localStartDate) {
       setDateError('End date cannot be before start date.');
-    } else if (newEnd < todayStr) {
+    } else if (newEnd && newEnd < todayStr) {
       setDateError('End date cannot be in the past.');
     } else {
       setDateError('');
@@ -205,6 +223,7 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
                 type="date"
                 className="input-field meta-date-input"
                 min={todayStr}
+                max="2099-12-31"
                 value={localStartDate}
                 onChange={handleStartDateChange}
               />
@@ -218,6 +237,7 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
                 type="date"
                 className="input-field meta-date-input"
                 min={localStartDate || todayStr}
+                max="2099-12-31"
                 value={localEndDate}
                 onChange={handleEndDateChange}
               />
