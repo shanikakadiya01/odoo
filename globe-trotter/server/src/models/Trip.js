@@ -27,7 +27,8 @@ const stopSchema = new mongoose.Schema({
 
 const tripSchema = new mongoose.Schema(
   {
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    _id: { type: String, required: true },
+    userId: { type: String, ref: 'User', required: true },
     title: { type: String, required: true, trim: true },
     description: { type: String, default: '' },
     coverImage: { type: String, default: '' },

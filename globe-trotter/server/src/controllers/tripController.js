@@ -1,9 +1,9 @@
-import { store } from '../store/dataStore.js';
+import { Trip } from '../models/Trip.js';
 
 export const getMyTrips = async (req, res) => {
   try {
     const userId = req.user?.id || 'user_demo_01';
-    const trips = store.getTripsByUser(userId);
+    const trips = await Trip.find({ userId }).sort({ createdAt: -1 });
     res.status(200).json({ trips });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch trips' });
@@ -13,7 +13,7 @@ export const getMyTrips = async (req, res) => {
 export const getTripById = async (req, res) => {
   try {
     const { id } = req.params;
-    const trip = store.getTripById(id);
+    const trip = await Trip.findById(id);
     if (!trip) {
       return res.status(404).json({ error: 'Trip not found' });
     }
@@ -26,7 +26,7 @@ export const getTripById = async (req, res) => {
 export const getSharedTrip = async (req, res) => {
   try {
     const { shareSlug } = req.params;
-    const trip = store.getTripById(shareSlug);
+    const trip = await Trip.findOne({ shareSlug });
     if (!trip) {
       return res.status(404).json({ error: 'Public trip not found' });
     }
@@ -45,7 +45,8 @@ export const createTrip = async (req, res) => {
       return res.status(400).json({ error: 'Title, start date, and end date are required' });
     }
 
-    const trip = store.createTrip({
+    const trip = await Trip.create({
+      _id: `trip_${Date.now()}`,
       userId,
       title,
       description: description || '',
@@ -54,6 +55,7 @@ export const createTrip = async (req, res) => {
       endDate,
       totalBudget: Number(totalBudget) || 0,
       isPublic: isPublic !== undefined ? isPublic : true,
+      shareSlug: title.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Math.random().toString(36).substring(2, 6),
       stops: stops || []
     });
 
@@ -66,7 +68,7 @@ export const createTrip = async (req, res) => {
 export const updateTrip = async (req, res) => {
   try {
     const { id } = req.params;
-    const updated = store.updateTrip(id, req.body);
+    const updated = await Trip.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
     if (!updated) {
       return res.status(404).json({ error: 'Trip not found' });
     }
@@ -79,7 +81,7 @@ export const updateTrip = async (req, res) => {
 export const deleteTrip = async (req, res) => {
   try {
     const { id } = req.params;
-    const success = store.deleteTrip(id);
+    const success = await Trip.findByIdAndDelete(id);
     if (!success) {
       return res.status(404).json({ error: 'Trip not found' });
     }
@@ -93,13 +95,12 @@ export const addStopToTrip = async (req, res) => {
   try {
     const { id } = req.params;
     const { cityName, country, arrivalDate, departureDate, estimatedAccommodationCost, activities } = req.body;
-    const trip = store.getTripById(id);
+    const trip = await Trip.findById(id);
     if (!trip) {
       return res.status(404).json({ error: 'Trip not found' });
     }
 
     const newStop = {
-      _id: `stop_${Date.now()}`,
       cityName,
       country,
       arrivalDate: arrivalDate || trip.startDate,
@@ -110,9 +111,9 @@ export const addStopToTrip = async (req, res) => {
     };
 
     trip.stops.push(newStop);
-    store.updateTrip(id, { stops: trip.stops });
+    await trip.save();
 
-    res.status(201).json({ trip, stop: newStop, message: 'Stop added successfully' });
+    res.status(201).json({ trip, stop: trip.stops[trip.stops.length - 1], message: 'Stop added successfully' });
   } catch (error) {
     res.status(500).json({ error: 'Failed to add stop' });
   }

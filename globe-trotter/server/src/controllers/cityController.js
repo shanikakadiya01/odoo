@@ -1,10 +1,28 @@
-import { store } from '../store/dataStore.js';
-import { sampleCities } from '../utils/seedData.js';
+import { City } from '../models/City.js';
 
 export const getCities = async (req, res) => {
   try {
     const { search, region, costIndex, sortBy } = req.query;
-    const cities = store.getCities({ search, region, costIndex, sortBy });
+    
+    let query = {};
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { country: { $regex: search, $options: 'i' } },
+        { highlights: { $regex: search, $options: 'i' } }
+      ];
+    }
+    if (region && region !== 'All') query.region = region;
+    if (costIndex && costIndex !== 'All') query.costIndex = costIndex;
+
+    let sort = {};
+    if (sortBy === 'popularity') sort = { popularityScore: -1 };
+    else if (sortBy === 'cost-asc') sort = { averageDailyBudget: 1 };
+    else if (sortBy === 'cost-desc') sort = { averageDailyBudget: -1 };
+    else if (sortBy === 'name') sort = { name: 1 };
+
+    const cities = await City.find(query).sort(sort);
+    
     res.status(200).json({
       count: cities.length,
       cities
@@ -17,7 +35,12 @@ export const getCities = async (req, res) => {
 export const getCityById = async (req, res) => {
   try {
     const { id } = req.params;
-    const city = store.getCityById(id);
+    let city = await City.findById(id);
+    if (!city) {
+      // Try searching by name as a fallback for some routes
+      city = await City.findOne({ name: { $regex: new RegExp(`^${id}$`, 'i') } });
+    }
+    
     if (!city) {
       return res.status(404).json({ error: 'City not found' });
     }
@@ -29,7 +52,7 @@ export const getCityById = async (req, res) => {
 
 export const getFeaturedCities = async (req, res) => {
   try {
-    const cities = store.getCities({ sortBy: 'popularity' }).slice(0, 6);
+    const cities = await City.find({}).sort({ popularityScore: -1 }).limit(6);
     res.status(200).json({ cities });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch featured cities' });
@@ -38,8 +61,7 @@ export const getFeaturedCities = async (req, res) => {
 
 export const seedCities = async (req, res) => {
   try {
-    store.cities = [...sampleCities];
-    res.status(200).json({ message: 'Cities seed refreshed', count: store.cities.length });
+    res.status(400).json({ error: 'Please use the dedicated seed script to reset cities.' });
   } catch (error) {
     res.status(500).json({ error: 'Failed to seed cities' });
   }

@@ -1,4 +1,3 @@
-import { store } from '../store/dataStore.js';
 
 export const getTravelSuggestions = async (req, res) => {
   try {
