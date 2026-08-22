@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   MapPin,
   Calendar,
@@ -46,11 +46,69 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
     );
   }
 
-  const breakdown = getBudgetBreakdown(activeTrip);
+  const todayStr = new Date().toISOString().split('T')[0];
 
-  const handleUpdateTripField = (field, value) => {
-    saveActiveTrip({ [field]: value });
+  const [localStartDate, setLocalStartDate] = useState('');
+  const [localEndDate, setLocalEndDate] = useState('');
+  const [dateError, setDateError] = useState('');
+
+  // Sync local state when activeTrip changes from outside
+  useEffect(() => {
+    if (activeTrip) {
+      setLocalStartDate(activeTrip.startDate ? activeTrip.startDate.split('T')[0] : '');
+      setLocalEndDate(activeTrip.endDate ? activeTrip.endDate.split('T')[0] : '');
+    }
+  }, [activeTrip?.startDate, activeTrip?.endDate]);
+
+  // Debounced save
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (localStartDate && localEndDate && !dateError) {
+        if (localStartDate !== (activeTrip.startDate?.split('T')[0]) || 
+            localEndDate !== (activeTrip.endDate?.split('T')[0])) {
+          saveActiveTrip({ startDate: localStartDate, endDate: localEndDate });
+        }
+      }
+    }, 300);
+    return () => clearTimeout(handler);
+  }, [localStartDate, localEndDate, dateError]);
+
+  const handleStartDateChange = (e) => {
+    const newStart = e.target.value;
+    setLocalStartDate(newStart);
+    
+    if (newStart && localEndDate && newStart > localEndDate) {
+      setLocalEndDate(newStart);
+      setDateError('End date was auto-adjusted to match start date.');
+      setTimeout(() => setDateError(''), 3000);
+    } else if (newStart < todayStr) {
+      setDateError('Start date cannot be in the past.');
+    } else {
+      setDateError('');
+    }
   };
+
+  const handleEndDateChange = (e) => {
+    const newEnd = e.target.value;
+    setLocalEndDate(newEnd);
+    
+    if (newEnd && localStartDate && newEnd < localStartDate) {
+      setDateError('End date cannot be before start date.');
+    } else if (newEnd < todayStr) {
+      setDateError('End date cannot be in the past.');
+    } else {
+      setDateError('');
+    }
+  };
+
+  const breakdown = useMemo(() => {
+    if (!activeTrip || dateError) return { daysCount: 0, totalActivities: 0, totalEstimated: 0 };
+    return getBudgetBreakdown(activeTrip);
+  }, [activeTrip, getBudgetBreakdown, dateError]);
+
+  const handleUpdateTripField = useCallback((field, value) => {
+    saveActiveTrip({ [field]: value });
+  }, [saveActiveTrip]);
 
   const handleAddActivitySubmit = (stopId, e) => {
     e.preventDefault();
@@ -116,8 +174,7 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
             </div>
           </div>
 
-          {/* Trip Meta Configuration Grid */}
-          <div className="trip-meta-grid">
+          <div className="trip-meta-grid" style={{ position: 'relative' }}>
             <div className="meta-input-group">
               <span className="meta-label">
                 <Calendar size={14} /> Start Date
@@ -125,8 +182,9 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
               <input
                 type="date"
                 className="input-field meta-date-input"
-                value={activeTrip.startDate ? activeTrip.startDate.split('T')[0] : ''}
-                onChange={(e) => handleUpdateTripField('startDate', e.target.value)}
+                min={todayStr}
+                value={localStartDate}
+                onChange={handleStartDateChange}
               />
             </div>
 
@@ -137,8 +195,9 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
               <input
                 type="date"
                 className="input-field meta-date-input"
-                value={activeTrip.endDate ? activeTrip.endDate.split('T')[0] : ''}
-                onChange={(e) => handleUpdateTripField('endDate', e.target.value)}
+                min={localStartDate || todayStr}
+                value={localEndDate}
+                onChange={handleEndDateChange}
               />
             </div>
 
@@ -158,11 +217,16 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
             <div className="meta-badge-box">
               <span className="meta-label">Duration & Stops</span>
               <div className="duration-pill-group">
-                <span className="badge badge-cyan">{breakdown.daysCount} Days Total</span>
+                <span className="badge badge-cyan">{dateError ? 0 : breakdown.daysCount} Days Total</span>
                 <span className="badge badge-coral">{activeTrip.stops?.length || 0} Cities</span>
               </div>
             </div>
           </div>
+          {dateError && (
+            <div className="date-error-msg" style={{ color: '#e11d48', fontSize: '0.85rem', marginTop: '8px', padding: '0 20px' }}>
+              * {dateError}
+            </div>
+          )}
         </div>
 
         {/* Multi-City Stops Timeline */}
@@ -177,7 +241,12 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
               </p>
             </div>
 
-            <button className="btn btn-primary btn-sm" onClick={onBrowseCities}>
+            <button 
+              className="btn btn-primary btn-sm" 
+              onClick={onBrowseCities}
+              disabled={!!dateError}
+              style={{ opacity: dateError ? 0.5 : 1, cursor: dateError ? 'not-allowed' : 'pointer' }}
+            >
               <Plus size={16} />
               <span>Add Destination</span>
             </button>
