@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Compass, Globe, MapPin, Calendar, CalendarDays, PieChart, Sparkles, User, Shield, LogOut, Heart, Plus, ChevronDown, Palette } from 'lucide-react';
+import { Compass, Plane, MapPin, Calendar, CalendarDays, PieChart, Sparkles, User, Shield, LogOut, Heart, Plus, ChevronDown, Palette } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTrips } from '../context/TripContext';
 import { useTheme } from '../context/ThemeContext';
@@ -19,7 +19,7 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
         {/* Brand Logo */}
         <div className="nav-brand" onClick={() => setActiveTab('explore')} role="button" tabIndex={0}>
           <div className="brand-icon-wrapper">
-            <Globe className="brand-icon animate-float" size={22} />
+            <Plane className="brand-icon" size={22} />
           </div>
           <div className="brand-text">
             <span className="brand-title">
@@ -237,14 +237,14 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
           width: 40px;
           height: 40px;
           border-radius: 12px;
-          background: #0284c7;
+          background: #ffffff;
           display: flex;
           align-items: center;
           justify-content: center;
           box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
         }
         .brand-icon {
-          color: #ffffff;
+          color: #000000;
         }
         .brand-title {
           font-family: var(--font-heading);

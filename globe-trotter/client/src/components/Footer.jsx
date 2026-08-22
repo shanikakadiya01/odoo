@@ -1,5 +1,5 @@
 import React from 'react';
-import { Globe, Heart, Compass, ShieldCheck, Zap } from 'lucide-react';
+import { Heart, Plane, ShieldCheck, Zap } from 'lucide-react';
 
 export const Footer = () => {
   return (
@@ -9,7 +9,7 @@ export const Footer = () => {
         <div className="footer-col brand-col">
           <div className="footer-brand">
             <div className="brand-icon-wrapper-small">
-              <Globe size={18} className="text-white" />
+                <Plane size={18} className="footer-logo-icon" />
             </div>
             <span className="brand-name">
               GLOBE<span className="gradient-text-sunset">TROTTER</span>
@@ -84,6 +84,9 @@ export const Footer = () => {
           align-items: center;
           gap: 10px;
           margin-bottom: 12px;
+        }
+        .footer-logo-icon {
+          color: #000000;
         }
         .brand-icon-wrapper-small {
           width: 32px;
