@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   MapPin,
   Calendar,
@@ -33,18 +33,31 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
     endTime: '12:30'
   });
 
-  if (!activeTrip) {
-    return (
-      <div className="trip-builder-empty glass-panel container">
-        <Compass size={48} className="text-cyan animate-float" />
-        <h2>No Active Trip Selected</h2>
-        <p>Start planning a multi-city adventure or explore destinations to build your itinerary.</p>
-        <button className="btn btn-primary" onClick={onBrowseCities}>
-          Explore Destinations
-        </button>
-      </div>
-    );
-  }
+  const [tripTitle, setTripTitle] = useState(activeTrip?.title || '');
+  const [tripDescription, setTripDescription] = useState(activeTrip?.description || '');
+  const [tripBudget, setTripBudget] = useState(activeTrip?.totalBudget?.toString() || '');
+
+  useEffect(() => {
+    if (activeTrip) {
+      setTripTitle(activeTrip.title || '');
+      setTripDescription(activeTrip.description || '');
+      setTripBudget(activeTrip.totalBudget?.toString() || '');
+    }
+  }, [activeTrip?._id]);
+
+  useEffect(() => {
+    if (!activeTrip) return undefined;
+
+    const handler = setTimeout(() => {
+      const updates = {};
+      if (tripTitle !== (activeTrip.title || '')) updates.title = tripTitle;
+      if (tripDescription !== (activeTrip.description || '')) updates.description = tripDescription;
+      if (tripBudget !== (activeTrip.totalBudget?.toString() || '')) updates.totalBudget = Number(tripBudget) || 0;
+      if (Object.keys(updates).length > 0) saveActiveTrip(updates);
+    }, 300);
+
+    return () => clearTimeout(handler);
+  }, [tripTitle, tripDescription, tripBudget, activeTrip]);
 
   const todayStr = new Date().toISOString().split('T')[0];
 
@@ -75,13 +88,22 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
 
   const handleStartDateChange = (e) => {
     const newStart = e.target.value;
+
+    if (newStart) {
+      const year = newStart.split('-')[0];
+      if (year.length > 4 || parseInt(year, 10) > 2099) {
+        setDateError('Please enter a valid year.');
+        return;
+      }
+    }
+
     setLocalStartDate(newStart);
     
     if (newStart && localEndDate && newStart > localEndDate) {
       setLocalEndDate(newStart);
       setDateError('End date was auto-adjusted to match start date.');
       setTimeout(() => setDateError(''), 3000);
-    } else if (newStart < todayStr) {
+    } else if (newStart && newStart < todayStr) {
       setDateError('Start date cannot be in the past.');
     } else {
       setDateError('');
@@ -90,11 +112,20 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
 
   const handleEndDateChange = (e) => {
     const newEnd = e.target.value;
+
+    if (newEnd) {
+      const year = newEnd.split('-')[0];
+      if (year.length > 4 || parseInt(year, 10) > 2099) {
+        setDateError('Please enter a valid year.');
+        return;
+      }
+    }
+
     setLocalEndDate(newEnd);
     
     if (newEnd && localStartDate && newEnd < localStartDate) {
       setDateError('End date cannot be before start date.');
-    } else if (newEnd < todayStr) {
+    } else if (newEnd && newEnd < todayStr) {
       setDateError('End date cannot be in the past.');
     } else {
       setDateError('');
@@ -106,9 +137,18 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
     return getBudgetBreakdown(activeTrip);
   }, [activeTrip, getBudgetBreakdown, dateError]);
 
-  const handleUpdateTripField = useCallback((field, value) => {
-    saveActiveTrip({ [field]: value });
-  }, [saveActiveTrip]);
+  if (!activeTrip) {
+    return (
+      <div className="trip-builder-empty glass-panel container">
+        <Compass size={48} className="text-cyan animate-float" />
+        <h2>No Active Trip Selected</h2>
+        <p>Start planning a multi-city adventure or explore destinations to build your itinerary.</p>
+        <button className="btn btn-primary" onClick={onBrowseCities}>
+          Explore Destinations
+        </button>
+      </div>
+    );
+  }
 
   const handleAddActivitySubmit = (stopId, e) => {
     e.preventDefault();
@@ -142,14 +182,14 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
               <input
                 type="text"
                 className="trip-title-input"
-                value={activeTrip.title}
-                onChange={(e) => handleUpdateTripField('title', e.target.value)}
+                value={tripTitle}
+                onChange={(e) => setTripTitle(e.target.value)}
                 placeholder="Name your journey (e.g. European Odyssey 2026)..."
               />
               <textarea
                 className="trip-desc-input"
-                value={activeTrip.description || ''}
-                onChange={(e) => handleUpdateTripField('description', e.target.value)}
+                value={tripDescription}
+                onChange={(e) => setTripDescription(e.target.value)}
                 placeholder="Add a travel theme, packing reminders, or group notes..."
                 rows={2}
               />
@@ -183,6 +223,7 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
                 type="date"
                 className="input-field meta-date-input"
                 min={todayStr}
+                max="2099-12-31"
                 value={localStartDate}
                 onChange={handleStartDateChange}
               />
@@ -196,6 +237,7 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
                 type="date"
                 className="input-field meta-date-input"
                 min={localStartDate || todayStr}
+                max="2099-12-31"
                 value={localEndDate}
                 onChange={handleEndDateChange}
               />
@@ -208,8 +250,8 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
               <input
                 type="number"
                 className="input-field meta-budget-input"
-                value={activeTrip.totalBudget || ''}
-                onChange={(e) => handleUpdateTripField('totalBudget', Number(e.target.value))}
+                value={tripBudget}
+                onChange={(e) => setTripBudget(e.target.value)}
                 placeholder="e.g. 5000"
               />
             </div>
