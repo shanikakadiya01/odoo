@@ -268,6 +268,11 @@ export const commentOnCommunityPost = async (postId, content) => {
   return res && res.post ? res.post : null;
 };
 
+// Admin API
+export const getAdminStats = async () => {
+  const res = await fetchWithFallback('/admin/stats');
+  return res || null;
+};
 
 // Helpers for Local Filtering
 function filterCitiesLocally(cities, { search, region, costIndex, sortBy }) {

@@ -12,6 +12,7 @@ import { ShareTripModal } from './components/ShareTripModal';
 import { ThemeModal } from './components/ThemeModal';
 import { AuthModal } from './components/AuthModal';
 import { CommunityHub } from './components/CommunityHub';
+import { AdminPanel } from './components/AdminPanel';
 import { FAQSection } from './components/FAQSection';
 import { Footer } from './components/Footer';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -191,7 +192,13 @@ function MainApp() {
         {activeTab === 'calendar' && (
           <CalendarView onSwitchToBuilder={() => setActiveTab('builder')} />
         )}
+
+        {/* Tab 7: Admin Panel */}
+        {activeTab === 'admin' && (
+          <AdminPanel />
+        )}
       </main>
+
 
       {/* Global Modals */}
       {selectedCityDetail && (
