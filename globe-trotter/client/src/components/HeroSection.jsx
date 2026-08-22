@@ -37,7 +37,7 @@ export const HeroSection = ({
 
         {/* Subtitle */}
         <p className="hero-subtitle">
-          Discover world-renowned destinations, automate your route timeline, organize per-city activities,
+          Discover world-renowned destinations, automate your route timeline, organize per-city activities, 
           and track daily expenses with our smart real-time budget calculator.
         </p>
 
