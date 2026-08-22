@@ -6,7 +6,12 @@ export const AuthModal = () => {
   const { authModalOpen, setAuthModalOpen, authMode, setAuthMode, login, loginDemo, register } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [city, setCity] = useState('');
+  const [country, setCountry] = useState('');
+  const [additionalInfo, setAdditionalInfo] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +25,7 @@ export const AuthModal = () => {
       if (authMode === 'login') {
         await login(email, password);
       } else {
-        await register(name, email, password);
+        await register({ firstName, lastName, phone, city, country, additionalInfo, email, password });
       }
     } catch (err) {
       setError(err.message || 'Authentication failed');
@@ -88,20 +93,87 @@ export const AuthModal = () => {
           {error && <div className="auth-error-box">{error}</div>}
 
           {authMode === 'register' && (
-            <div className="input-group">
-              <label className="input-label">Full Name</label>
-              <div className="input-icon-wrap">
-                <User size={16} className="input-icon" />
-                <input
-                  type="text"
-                  className="input-field with-icon"
-                  placeholder="e.g. Alex Johnson"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
+            <>
+              <div className="input-row" style={{ display: 'flex', gap: '10px' }}>
+                <div className="input-group" style={{ flex: 1 }}>
+                  <label className="input-label">First Name</label>
+                  <div className="input-icon-wrap">
+                    <User size={16} className="input-icon" />
+                    <input
+                      type="text"
+                      className="input-field with-icon"
+                      placeholder="Alex"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="input-group" style={{ flex: 1 }}>
+                  <label className="input-label">Last Name</label>
+                  <div className="input-icon-wrap">
+                    <User size={16} className="input-icon" />
+                    <input
+                      type="text"
+                      className="input-field with-icon"
+                      placeholder="Johnson"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="input-group">
+                <label className="input-label">Phone Number</label>
+                <div className="input-icon-wrap">
+                  <input
+                    type="tel"
+                    className="input-field"
+                    placeholder="+1 234 567 8900"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="input-row" style={{ display: 'flex', gap: '10px' }}>
+                <div className="input-group" style={{ flex: 1 }}>
+                  <label className="input-label">City</label>
+                  <div className="input-icon-wrap">
+                    <input
+                      type="text"
+                      className="input-field"
+                      placeholder="New York"
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="input-group" style={{ flex: 1 }}>
+                  <label className="input-label">Country</label>
+                  <div className="input-icon-wrap">
+                    <input
+                      type="text"
+                      className="input-field"
+                      placeholder="USA"
+                      value={country}
+                      onChange={(e) => setCountry(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="input-group">
+                <label className="input-label">Additional Information (Optional)</label>
+                <textarea
+                  className="input-field"
+                  placeholder="Any dietary restrictions, accessibility needs, etc."
+                  value={additionalInfo}
+                  onChange={(e) => setAdditionalInfo(e.target.value)}
+                  rows="2"
+                  style={{ resize: 'none' }}
                 />
               </div>
-            </div>
+            </>
           )}
 
           <div className="input-group">
