@@ -1,25 +1,14 @@
 import React, { useState } from 'react';
-import { X, MapPin, Clock, DollarSign, Plus, Check, Compass, Sun, Coins } from 'lucide-react';
+import { X, MapPin, Sparkles, Clock, DollarSign, Plus, Check, Compass, Sun, Coins } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTrips } from '../context/TripContext';
 import { formatMoney } from '../services/api';
-
-const FALLBACK_DESTINATION_IMAGE = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80';
 
 export const CityDetailModal = ({ city, onClose }) => {
   const { currency, bookmarks, toggleBookmark } = useAuth();
   const { addStop, activeTrip, addActivity } = useTrips();
   const [addedStopSuccess, setAddedStopSuccess] = useState(false);
   const [addedActivityIds, setAddedActivityIds] = useState([]);
-  const [imageSrc, setImageSrc] = useState(city?.imageUrl || FALLBACK_DESTINATION_IMAGE);
-
-  React.useEffect(() => {
-    if (city?.imageUrl) {
-      setImageSrc(city.imageUrl);
-    } else {
-      setImageSrc(FALLBACK_DESTINATION_IMAGE);
-    }
-  }, [city?.imageUrl]);
 
   if (!city) return null;
   const isBookmarked = bookmarks.includes(city._id);
@@ -55,12 +44,7 @@ export const CityDetailModal = ({ city, onClose }) => {
       <div className="modal-content modal-content-lg" onClick={(e) => e.stopPropagation()}>
         {/* Modal Header Cover */}
         <div className="modal-city-hero">
-          <img
-            src={imageSrc}
-            alt={city.name}
-            className="modal-city-hero-img"
-            onError={() => setImageSrc(FALLBACK_DESTINATION_IMAGE)}
-          />
+          <img src={city.imageUrl} alt={city.name} className="modal-city-hero-img" />
           <div className="modal-city-hero-overlay" />
 
           {/* Close Button */}
@@ -70,7 +54,9 @@ export const CityDetailModal = ({ city, onClose }) => {
 
           {/* City Badge Info */}
           <div className="modal-hero-badge-group">
+
             <span className="badge badge-cyan">{city.region}</span>
+            <span className="badge badge-amber">{city.popularityScore}% Popularity</span>
           </div>
 
           <div className="modal-hero-title-box">
