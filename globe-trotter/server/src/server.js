@@ -6,6 +6,7 @@ import authRoutes from './routes/authRoutes.js';
 import cityRoutes from './routes/cityRoutes.js';
 import tripRoutes from './routes/tripRoutes.js';
 import aiRoutes from './routes/aiRoutes.js';
+import communityRoutes from './routes/communityRoutes.js';
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/cities', cityRoutes);
 app.use('/api/trips', tripRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/community', communityRoutes);
 
 // Base Route Healthcheck
 app.get('/api/health', (req, res) => {

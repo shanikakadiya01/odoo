@@ -10,6 +10,7 @@ import { AIAssistantModal } from './components/AIAssistantModal';
 import { ShareTripModal } from './components/ShareTripModal';
 import { ThemeModal } from './components/ThemeModal';
 import { AuthModal } from './components/AuthModal';
+import { CommunityHub } from './components/CommunityHub';
 import { FAQSection } from './components/FAQSection';
 import { Footer } from './components/Footer';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -178,6 +179,11 @@ function MainApp() {
             onOpenShare={() => setShareModalOpen(true)}
             onBrowseCities={() => setActiveTab('explore')}
           />
+        )}
+
+        {/* Tab 5: Community Hub */}
+        {activeTab === 'community' && (
+          <CommunityHub />
         )}
       </main>
 

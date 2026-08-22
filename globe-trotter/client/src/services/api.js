@@ -247,6 +247,38 @@ export const getAISuggestions = async (params) => {
   };
 };
 
+// Community Hub API
+export const getCommunityPosts = async (search = '', sortBy = 'newest') => {
+  const params = new URLSearchParams();
+  if (search) params.append('search', search);
+  if (sortBy) params.append('sortBy', sortBy);
+
+  const res = await fetchWithFallback(`/community?${params.toString()}`);
+  return res && res.posts ? res.posts : [];
+};
+
+export const createCommunityPost = async (content) => {
+  const res = await fetchWithFallback('/community', {
+    method: 'POST',
+    body: JSON.stringify({ content })
+  });
+  return res && res.post ? res.post : null;
+};
+
+export const upvoteCommunityPost = async (postId) => {
+  const res = await fetchWithFallback(`/community/${postId}/upvote`, { method: 'PUT' });
+  return res && res.post ? res.post : null;
+};
+
+export const commentOnCommunityPost = async (postId, content) => {
+  const res = await fetchWithFallback(`/community/${postId}/comment`, {
+    method: 'POST',
+    body: JSON.stringify({ content })
+  });
+  return res && res.post ? res.post : null;
+};
+
+
 // Helpers for Local Filtering
 function filterCitiesLocally(cities, { search, region, costIndex, sortBy }) {
   let result = [...cities];

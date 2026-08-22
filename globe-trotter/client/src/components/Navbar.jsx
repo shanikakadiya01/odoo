@@ -64,6 +64,14 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
             <Calendar size={18} />
             <span>My Trips</span>
           </button>
+
+          <button
+            className={`nav-btn ${activeTab === 'community' ? 'active' : ''}`}
+            onClick={() => setActiveTab('community')}
+          >
+            <User size={18} />
+            <span>Community</span>
+          </button>
         </nav>
 
         {/* Right Actions */}
