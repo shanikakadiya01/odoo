@@ -44,11 +44,6 @@ export const CityCard = ({ city, onOpenDetail }) => {
           <Heart size={18} fill={isBookmarked ? '#e11d48' : 'none'} color={isBookmarked ? '#e11d48' : '#0f172a'} />
         </button>
 
-        {/* Popularity Score Pill */}
-        <div className="card-popularity-pill">
-          <Sparkles size={12} className="text-amber" />
-          <span>{city.popularityScore}% Match</span>
-        </div>
       </div>
 
       {/* Card Body */}
