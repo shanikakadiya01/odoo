@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { CalendarDays, ChevronLeft, ChevronRight, Clock, MapPin, Plus, Sparkles } from 'lucide-react';
 import { useTrips } from '../context/TripContext';
+import { getCities } from '../services/api';
 
 const pad = (value) => String(value).padStart(2, '0');
 const toDateKey = (date) => `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
@@ -25,9 +26,12 @@ const getMonthDays = (monthDate) => {
 export const CalendarView = ({ onSwitchToBuilder }) => {
   const { trips, activeTrip, selectTrip } = useTrips();
   const [calendarTripId, setCalendarTripId] = useState(activeTrip?._id || '');
+  const [selectedCityId, setSelectedCityId] = useState('');
+  const [exploreCities, setExploreCities] = useState([]);
   const [monthDate, setMonthDate] = useState(() => parseDate(activeTrip?.startDate) || new Date());
   const [selectedDate, setSelectedDate] = useState(() => toDateKey(parseDate(activeTrip?.startDate) || new Date()));
-  const calendarTrip = trips.find((trip) => trip._id === calendarTripId) || activeTrip;
+  const availableTrips = useMemo(() => trips.filter((trip) => trip.title?.trim().toLowerCase() !== 'new york'), [trips]);
+  const calendarTrip = availableTrips.find((trip) => trip._id === calendarTripId) || availableTrips[0] || null;
   const monthDays = useMemo(() => getMonthDays(monthDate), [monthDate]);
   const tripEvents = useMemo(() => {
     const events = new Map();
@@ -53,23 +57,53 @@ export const CalendarView = ({ onSwitchToBuilder }) => {
   }, [calendarTrip]);
   const selectedEvents = tripEvents.get(selectedDate) || [];
   const selectedDateObject = parseDate(selectedDate) || new Date();
+  const tripStops = calendarTrip?.stops || [];
+  const cityOptions = useMemo(() => {
+    const cities = [...tripStops
+      .filter((stop) => stop.cityName?.toLowerCase() !== 'new york')
+      .map((stop) => ({ id: stop._id, name: stop.cityName }))];
+    exploreCities.forEach((city) => {
+      if (city.name?.toLowerCase() !== 'new york' && !cities.some((option) => option.name.toLowerCase() === city.name.toLowerCase())) {
+        cities.push({ id: city._id, name: city.name });
+      }
+    });
+    return cities;
+  }, [exploreCities, tripStops]);
 
   useEffect(() => {
-    if (!activeTrip?._id) return;
-    setCalendarTripId(activeTrip._id);
-  }, [activeTrip?._id]);
+    getCities().then(setExploreCities).catch((error) => {
+      console.error('Failed to load calendar city options:', error);
+    });
+  }, []);
+
+  useEffect(() => {
+    const nextTrip = availableTrips.find((trip) => trip._id === activeTrip?._id) || availableTrips[0];
+    setCalendarTripId(nextTrip?._id || '');
+  }, [activeTrip?._id, availableTrips]);
 
   useEffect(() => {
     if (!calendarTrip) return;
     const startDate = parseDate(calendarTrip.startDate) || new Date();
     setMonthDate(startDate);
     setSelectedDate(toDateKey(startDate));
+    setSelectedCityId('');
   }, [calendarTrip?._id]);
 
   const changeTrip = (event) => {
-    const nextTrip = trips.find((trip) => trip._id === event.target.value);
+    const nextTrip = availableTrips.find((trip) => trip._id === event.target.value);
     setCalendarTripId(event.target.value);
     if (nextTrip) selectTrip(nextTrip);
+  };
+
+  const changeCity = (event) => {
+    const cityName = event.target.value;
+    const stop = tripStops.find((tripStop) => tripStop.cityName.toLowerCase() === cityName.toLowerCase());
+    setSelectedCityId(cityName);
+    const arrivalDate = parseDate(stop?.arrivalDate);
+    if (arrivalDate) {
+      setMonthDate(arrivalDate);
+      setSelectedDate(toDateKey(arrivalDate));
+    }
   };
 
   return (
@@ -82,9 +116,9 @@ export const CalendarView = ({ onSwitchToBuilder }) => {
             <p className="calendar-subtitle">Track city stays and daily plans in one clear monthly view.</p>
           </div>
           <div className="calendar-header-actions">
-            <select className="select-field calendar-trip-select" value={calendarTrip?._id || ''} onChange={changeTrip} disabled={!trips.length} aria-label="Choose trip">
-              {!trips.length && <option value="">No trips yet</option>}
-              {trips.map((trip) => <option key={trip._id} value={trip._id}>{trip.title}</option>)}
+            <select className="select-field calendar-city-select" value={selectedCityId} onChange={changeCity} disabled={!cityOptions.length} aria-label="Choose city">
+              <option value="">All cities</option>
+              {cityOptions.map((city) => <option key={`${city.id}-${city.name}`} value={city.name}>{city.name}</option>)}
             </select>
             <button className="btn btn-primary" onClick={onSwitchToBuilder} disabled={!calendarTrip}><Plus size={16} /><span>Edit itinerary</span></button>
           </div>
