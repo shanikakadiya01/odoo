@@ -57,7 +57,7 @@ export const getCities = async ({ search = '', region = 'All', costIndex = 'All'
   if (res && res.cities) return res.cities;
 
   // Local storage / fallback cities
-  const cached = localStorage.getItem('gt_cached_cities');
+  const cached = localStorage.getItem('gt_cached_cities_v6');
   if (cached) {
     try {
       const parsed = JSON.parse(cached);
@@ -67,7 +67,7 @@ export const getCities = async ({ search = '', region = 'All', costIndex = 'All'
 
   // Built-in fallback catalog
   const fallback = getDefaultCities();
-  localStorage.setItem('gt_cached_cities', JSON.stringify(fallback));
+  localStorage.setItem('gt_cached_cities_v6', JSON.stringify(fallback));
   return filterCitiesLocally(fallback, { search, region, costIndex, sortBy });
 };
 
@@ -84,14 +84,14 @@ export const getMyTrips = async () => {
   const res = await fetchWithFallback('/trips');
   if (res && res.trips) return res.trips;
 
-  const stored = localStorage.getItem('gt_local_trips');
+  const stored = localStorage.getItem('gt_local_trips_v6');
   if (stored) {
     try {
       return JSON.parse(stored);
     } catch (_) {}
   }
   const initial = [getDefaultTrip()];
-  localStorage.setItem('gt_local_trips', JSON.stringify(initial));
+  localStorage.setItem('gt_local_trips_v6', JSON.stringify(initial));
   return initial;
 };
 
@@ -112,7 +112,7 @@ export const createTrip = async (tripData) => {
   };
   const current = await getMyTrips();
   const updated = [newTrip, ...current];
-  localStorage.setItem('gt_local_trips', JSON.stringify(updated));
+  localStorage.setItem('gt_local_trips_v6', JSON.stringify(updated));
   return newTrip;
 };
 
@@ -127,7 +127,7 @@ export const updateTrip = async (id, updateData) => {
   const index = current.findIndex((t) => t._id === id);
   if (index !== -1) {
     current[index] = { ...current[index], ...updateData, updatedAt: new Date().toISOString() };
-    localStorage.setItem('gt_local_trips', JSON.stringify(current));
+    localStorage.setItem('gt_local_trips_v6', JSON.stringify(current));
     return current[index];
   }
   return null;
@@ -137,7 +137,7 @@ export const deleteTrip = async (id) => {
   await fetchWithFallback(`/trips/${id}`, { method: 'DELETE' });
   const current = await getMyTrips();
   const filtered = current.filter((t) => t._id !== id);
-  localStorage.setItem('gt_local_trips', JSON.stringify(filtered));
+  localStorage.setItem('gt_local_trips_v6', JSON.stringify(filtered));
   return true;
 };
 
@@ -277,117 +277,107 @@ function filterCitiesLocally(cities, { search, region, costIndex, sortBy }) {
 
 function getDefaultTrip() {
   return {
-    _id: 'trip_demo_grand_tour',
+    _id: 'trip_demo_india_tour',
     userId: 'user_demo_01',
-    title: 'Euro-Asian Grand Odyssey 2026',
-    description: 'An unforgettable 3-week adventure discovering timeless European landmarks and electric Tokyo nightlife.',
-    coverImage: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80',
-    startDate: '2026-09-10',
-    endDate: '2026-10-01',
-    totalBudget: 4500,
+    title: 'Incredible India Tour 2026',
+    description: 'A vibrant journey through the heart of India, exploring historical monuments, rich textile heritage, and culinary delights across Delhi, Ahmedabad, and Surat.',
+    coverImage: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80',
+    startDate: '2026-10-10',
+    endDate: '2026-10-24',
+    totalBudget: 1500,
     isPublic: true,
-    shareSlug: 'grand-odyssey-2026',
+    shareSlug: 'incredible-india-2026',
     stops: [
       {
         _id: 'stop_1',
-        cityName: 'Paris',
-        country: 'France',
-        arrivalDate: '2026-09-10',
-        departureDate: '2026-09-15',
+        cityName: 'Delhi',
+        country: 'India',
+        arrivalDate: '2026-10-10',
+        departureDate: '2026-10-14',
         orderIndex: 0,
-        estimatedAccommodationCost: 750,
+        estimatedAccommodationCost: 200,
         activities: [
           {
             _id: 'act_1_1',
-            title: 'Eiffel Tower Sunset Summit Tour',
-            category: 'Sightseeing',
-            cost: 38,
+            title: 'Old Delhi Heritage Walk',
+            category: 'Culture',
+            cost: 15,
             currency: 'USD',
-            scheduledDate: '2026-09-11',
-            startTime: '18:00',
-            endTime: '20:30'
+            scheduledDate: '2026-10-11',
+            startTime: '09:00',
+            endTime: '12:00'
           },
           {
             _id: 'act_1_2',
-            title: 'Louvre Museum Guided Walk',
-            category: 'Culture',
-            cost: 24,
-            currency: 'USD',
-            scheduledDate: '2026-09-12',
-            startTime: '10:00',
-            endTime: '13:30'
-          },
-          {
-            _id: 'act_1_3',
-            title: 'Seine River Gourmet Dinner Cruise',
+            title: 'Chandni Chowk Street Food Tour',
             category: 'Food & Dining',
-            cost: 85,
+            cost: 20,
             currency: 'USD',
-            scheduledDate: '2026-09-13',
-            startTime: '19:30',
-            endTime: '21:30'
+            scheduledDate: '2026-10-12',
+            startTime: '18:00',
+            endTime: '21:00'
           }
         ]
       },
       {
         _id: 'stop_2',
-        cityName: 'Rome',
-        country: 'Italy',
-        arrivalDate: '2026-09-15',
-        departureDate: '2026-09-20',
+        cityName: 'Ahmedabad',
+        country: 'India',
+        arrivalDate: '2026-10-15',
+        departureDate: '2026-10-19',
         orderIndex: 1,
-        estimatedAccommodationCost: 600,
+        estimatedAccommodationCost: 150,
         activities: [
           {
             _id: 'act_2_1',
-            title: 'Colosseum & Roman Forum Priority Tour',
-            category: 'Sightseeing',
-            cost: 32,
+            title: 'Sabarmati Ashram Visit',
+            category: 'Culture',
+            cost: 5,
             currency: 'USD',
-            scheduledDate: '2026-09-16',
-            startTime: '09:00',
-            endTime: '12:00'
+            scheduledDate: '2026-10-16',
+            startTime: '10:00',
+            endTime: '13:00'
           },
           {
             _id: 'act_2_2',
-            title: 'Trastevere Sunset Pasta & Gelato Crawl',
+            title: 'Manek Chowk Midnight Street Food',
             category: 'Food & Dining',
-            cost: 42,
+            cost: 15,
             currency: 'USD',
-            scheduledDate: '2026-09-17',
-            startTime: '17:30',
-            endTime: '20:00'
+            scheduledDate: '2026-10-17',
+            startTime: '22:00',
+            endTime: '23:59'
           }
         ]
       },
       {
         _id: 'stop_3',
-        cityName: 'Tokyo',
-        country: 'Japan',
-        arrivalDate: '2026-09-21',
-        departureDate: '2026-10-01',
+        cityName: 'Surat',
+        country: 'India',
+        arrivalDate: '2026-10-20',
+        departureDate: '2026-10-24',
         orderIndex: 2,
-        estimatedAccommodationCost: 1100,
+        estimatedAccommodationCost: 120,
         activities: [
           {
             _id: 'act_3_1',
-            title: 'Shibuya Crossing & Harajuku Hidden Alleyways',
-            category: 'Sightseeing',
-            cost: 18,
+            title: 'Surat Castle & Historic Exploration',
+            category: 'Culture',
+            cost: 8,
             currency: 'USD',
-            scheduledDate: '2026-09-22',
-            startTime: '14:00',
-            endTime: '17:00'
+            scheduledDate: '2026-10-21',
+            startTime: '10:00',
+            endTime: '13:00'
           },
           {
             _id: 'act_3_2',
-            title: 'Mount Fuji & Lake Kawaguchiko Scenic Day Trip',
-            category: 'Adventure',
-            cost: 95,
+            title: 'Dumas Beach Sunset Walk & Snacks',
+            category: 'Sightseeing',
+            cost: 5,
             currency: 'USD',
-            scheduledDate: '2026-09-25',
-            startTime: '08:00',
-            endTime: '16:00'
+            scheduledDate: '2026-10-22',
+            startTime: '17:00',
+            endTime: '19:30'
           }
         ]
       }
@@ -635,6 +625,834 @@ function getDefaultCities() {
         { id: 'act_rj2', title: 'Sugarloaf Mountain Cable Car Sunset', category: 'Sightseeing', estimatedCost: 30, durationHours: 2.5 },
         { id: 'act_rj3', title: 'Santa Teresa Bohemain Neighborhood & Selarón Steps', category: 'Culture', estimatedCost: 18, durationHours: 2 },
         { id: 'act_rj4', title: 'Tijuca National Rainforest Jeep Expedition', category: 'Adventure', estimatedCost: 48, durationHours: 4 }
+      ]
+    },
+    {
+      _id: 'city_delhi_13',
+      name: 'Delhi',
+      country: 'India',
+      region: 'Asia',
+      costIndex: '$',
+      averageDailyBudget: 45,
+      popularityScore: 90,
+      imageUrl: 'https://source.unsplash.com/1200x800/?Delhi,india',
+      description: 'A vibrant capital blending centuries of Mughal history with a bustling modern metropolis, renowned for its street food and grand monuments.',
+      climate: 'Semi-arid (Best: Oct - Mar)',
+      currency: 'INR',
+      highlights: ['Red Fort', 'India Gate', 'Qutub Minar', 'Chandni Chowk'],
+      topActivities: [
+        { id: 'act_del1', title: 'Old Delhi Heritage Walk & Rickshaw Ride', category: 'Culture', estimatedCost: 15, durationHours: 3 },
+        { id: 'act_del2', title: 'Chandni Chowk Street Food Tour', category: 'Food & Dining', estimatedCost: 20, durationHours: 2.5 },
+        { id: 'act_del3', title: 'Qutub Minar & South Delhi Monuments', category: 'Sightseeing', estimatedCost: 12, durationHours: 3 },
+        { id: 'act_del4', title: 'Akshardham Temple Evening Light & Water Show', category: 'Culture', estimatedCost: 10, durationHours: 2.5 }
+      ]
+    },
+    {
+      _id: 'city_ahmedabad_14',
+      name: 'Ahmedabad',
+      country: 'India',
+      region: 'Asia',
+      costIndex: '$',
+      averageDailyBudget: 35,
+      popularityScore: 88,
+      imageUrl: 'https://source.unsplash.com/1200x800/?Ahmedabad,india',
+      description: 'India’s first UNESCO World Heritage City, famous for its magnificent textiles, intricate Indo-Islamic architecture, and the peaceful Sabarmati Ashram.',
+      climate: 'Hot Semi-arid (Best: Nov - Feb)',
+      currency: 'INR',
+      highlights: ['Sabarmati Ashram', 'Adalaj Stepwell', 'Kankaria Lake', 'Jama Masjid'],
+      topActivities: [
+        { id: 'act_ahm1', title: 'Sabarmati Ashram & Riverfront Visit', category: 'Culture', estimatedCost: 5, durationHours: 2 },
+        { id: 'act_ahm2', title: 'Adalaj Stepwell Architectural Tour', category: 'Sightseeing', estimatedCost: 8, durationHours: 1.5 },
+        { id: 'act_ahm3', title: 'Manek Chowk Midnight Street Food Tasting', category: 'Food & Dining', estimatedCost: 15, durationHours: 2 },
+        { id: 'act_ahm4', title: 'Calico Museum of Textiles Guided Tour', category: 'Culture', estimatedCost: 10, durationHours: 2.5 }
+      ]
+    },
+    {
+      _id: 'city_surat_15',
+      name: 'Surat',
+      country: 'India',
+      region: 'Asia',
+      costIndex: '$',
+      averageDailyBudget: 35,
+      popularityScore: 85,
+      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Bharthana_Althan_area.jpg/1280px-Bharthana_Althan_area.jpg',
+      description: 'The Diamond City of India, widely celebrated for its thriving diamond cutting industry, rich Gujarati culinary scene, and lively coastal vibe.',
+      climate: 'Tropical Savanna (Best: Oct - Mar)',
+      currency: 'INR',
+      highlights: ['Dumas Beach', 'Surat Castle', 'Sarthana Nature Park', 'Textile Markets'],
+      topActivities: [
+        { id: 'act_sur1', title: 'Dumas Beach Sunset Walk & Local Snacks', category: 'Sightseeing', estimatedCost: 5, durationHours: 2 },
+        { id: 'act_sur2', title: 'Surti Food & Sweet Tasting Experience', category: 'Food & Dining', estimatedCost: 12, durationHours: 2 },
+        { id: 'act_sur3', title: 'Surat Castle Historic Exploration', category: 'Culture', estimatedCost: 8, durationHours: 1.5 },
+        { id: 'act_sur4', title: 'Wholesale Textile Market Shopping Spree', category: 'Culture', estimatedCost: 0, durationHours: 3 }
+      ]
+    },
+    {
+      "_id": "city_delhi_40",
+      "name": "Delhi",
+      "state": "Delhi",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 28.6139,
+        "lng": 77.209
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Jama_Masjid_2011.jpg/1280px-Jama_Masjid_2011.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+      "description": "Experience the vibrant culture and stunning landscapes of Delhi, Delhi.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_del1",
+          "title": "Delhi Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_mumbai_41",
+      "name": "Mumbai",
+      "state": "Maharashtra",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 19.076,
+        "lng": 72.8777
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Mumbai_Bandra-Worli_Sea_Link.jpg/1280px-Mumbai_Bandra-Worli_Sea_Link.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+      "description": "Experience the vibrant culture and stunning landscapes of Mumbai, Maharashtra.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_mum1",
+          "title": "Mumbai Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_bengaluru_42",
+      "name": "Bengaluru",
+      "state": "Karnataka",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80",
+      "description": "Experience the vibrant culture and stunning landscapes of Bengaluru, Karnataka.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_ben1",
+          "title": "Bengaluru Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_jaipur_43",
+      "name": "Jaipur",
+      "state": "Rajasthan",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 26.9124,
+        "lng": 75.7873
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/East_facade_Hawa_Mahal_Jaipur_from_ground_level_%28July_2022%29_-_img_01.jpg/1280px-East_facade_Hawa_Mahal_Jaipur_from_ground_level_%28July_2022%29_-_img_01.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+      "description": "Experience the vibrant culture and stunning landscapes of Jaipur, Rajasthan.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_jai1",
+          "title": "Jaipur Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_goa_44",
+      "name": "Goa",
+      "state": "Goa",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 15.2993,
+        "lng": 74.124
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/BeachFun.jpg/1280px-BeachFun.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+      "description": "Experience the vibrant culture and stunning landscapes of Goa, Goa.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_goa1",
+          "title": "Goa Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_agra_45",
+      "name": "Agra",
+      "state": "Uttar Pradesh",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 27.1767,
+        "lng": 78.0081
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Taj_Mahal%2C_Agra%2C_India.jpg/1280px-Taj_Mahal%2C_Agra%2C_India.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+      "description": "Experience the vibrant culture and stunning landscapes of Agra, Uttar Pradesh.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_agr1",
+          "title": "Agra Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_udaipur_46",
+      "name": "Udaipur",
+      "state": "Rajasthan",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 24.5854,
+        "lng": 73.7125
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Evening_view%2C_City_Palace%2C_Udaipur.jpg/1280px-Evening_view%2C_City_Palace%2C_Udaipur.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+      "description": "Experience the vibrant culture and stunning landscapes of Udaipur, Rajasthan.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_uda1",
+          "title": "Udaipur Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_kochi_47",
+      "name": "Kochi",
+      "state": "Kerala",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 9.9312,
+        "lng": 76.2673
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Kochi_Skyline.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+      "description": "Experience the vibrant culture and stunning landscapes of Kochi, Kerala.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_koc1",
+          "title": "Kochi Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_varanasi_48",
+      "name": "Varanasi",
+      "state": "Uttar Pradesh",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 25.3176,
+        "lng": 82.9739
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Varanasi%2C_India%2C_Ghats%2C_Cremation_ceremony_in_progress.jpg/1280px-Varanasi%2C_India%2C_Ghats%2C_Cremation_ceremony_in_progress.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+      "description": "Experience the vibrant culture and stunning landscapes of Varanasi, Uttar Pradesh.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_var1",
+          "title": "Varanasi Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_rishikesh_49",
+      "name": "Rishikesh",
+      "state": "Uttarakhand",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 30.0869,
+        "lng": 78.2676
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Trayambakeshwar_Temple_VK.jpg/1280px-Trayambakeshwar_Temple_VK.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+      "description": "Experience the vibrant culture and stunning landscapes of Rishikesh, Uttarakhand.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_ris1",
+          "title": "Rishikesh Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_hampi_50",
+      "name": "Hampi",
+      "state": "Karnataka",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 15.335,
+        "lng": 76.46
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80",
+      "description": "Experience the vibrant culture and stunning landscapes of Hampi, Karnataka.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_ham1",
+          "title": "Hampi Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_khajuraho_51",
+      "name": "Khajuraho",
+      "state": "Madhya Pradesh",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 24.8318,
+        "lng": 79.9199
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80",
+      "description": "Experience the vibrant culture and stunning landscapes of Khajuraho, Madhya Pradesh.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_kha1",
+          "title": "Khajuraho Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_mahabalipuram_52",
+      "name": "Mahabalipuram",
+      "state": "Tamil Nadu",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 12.6208,
+        "lng": 80.1945
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80",
+      "description": "Experience the vibrant culture and stunning landscapes of Mahabalipuram, Tamil Nadu.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_mah1",
+          "title": "Mahabalipuram Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_aurangabad_53",
+      "name": "Aurangabad",
+      "state": "Maharashtra",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 19.8762,
+        "lng": 75.3433
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80",
+      "description": "Experience the vibrant culture and stunning landscapes of Aurangabad, Maharashtra.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_aur1",
+          "title": "Aurangabad Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_mysuru_54",
+      "name": "Mysuru",
+      "state": "Karnataka",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 12.2958,
+        "lng": 76.6394
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80",
+      "description": "Experience the vibrant culture and stunning landscapes of Mysuru, Karnataka.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_mys1",
+          "title": "Mysuru Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_amritsar_55",
+      "name": "Amritsar",
+      "state": "Punjab",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 31.634,
+        "lng": 74.8723
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80",
+      "description": "Experience the vibrant culture and stunning landscapes of Amritsar, Punjab.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_amr1",
+          "title": "Amritsar Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_bodhgaya_56",
+      "name": "Bodh Gaya",
+      "state": "Bihar",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 24.6959,
+        "lng": 84.9914
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80",
+      "description": "Experience the vibrant culture and stunning landscapes of Bodh Gaya, Bihar.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_bod1",
+          "title": "Bodh Gaya Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_madurai_57",
+      "name": "Madurai",
+      "state": "Tamil Nadu",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 9.9252,
+        "lng": 78.1198
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80",
+      "description": "Experience the vibrant culture and stunning landscapes of Madurai, Tamil Nadu.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_mad1",
+          "title": "Madurai Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_shimla_58",
+      "name": "Shimla",
+      "state": "Himachal Pradesh",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 31.1048,
+        "lng": 77.1734
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80",
+      "description": "Experience the vibrant culture and stunning landscapes of Shimla, Himachal Pradesh.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_shi1",
+          "title": "Shimla Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_manali_59",
+      "name": "Manali",
+      "state": "Himachal Pradesh",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 32.2396,
+        "lng": 77.1887
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80",
+      "description": "Experience the vibrant culture and stunning landscapes of Manali, Himachal Pradesh.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_man1",
+          "title": "Manali Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_darjeeling_60",
+      "name": "Darjeeling",
+      "state": "West Bengal",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 27.041,
+        "lng": 88.2663
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80",
+      "description": "Experience the vibrant culture and stunning landscapes of Darjeeling, West Bengal.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_dar1",
+          "title": "Darjeeling Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_pondicherry_61",
+      "name": "Pondicherry",
+      "state": "Puducherry",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 11.9416,
+        "lng": 79.8083
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80",
+      "description": "Experience the vibrant culture and stunning landscapes of Pondicherry, Puducherry.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_pon1",
+          "title": "Pondicherry Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_leh_62",
+      "name": "Leh",
+      "state": "Ladakh",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 34.1526,
+        "lng": 77.5771
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80",
+      "description": "Experience the vibrant culture and stunning landscapes of Leh, Ladakh.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_leh1",
+          "title": "Leh Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
+      ]
+    },
+    {
+      "_id": "city_kolkata_63",
+      "name": "Kolkata",
+      "state": "West Bengal",
+      "country": "India",
+      "region": "India",
+      "coordinates": {
+        "lat": 22.5726,
+        "lng": 88.3639
+      },
+      "costIndex": "$",
+      "averageDailyBudget": 40,
+      "popularityScore": 85,
+      "imageUrl": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80",
+      "description": "Experience the vibrant culture and stunning landscapes of Kolkata, West Bengal.",
+      "climate": "Tropical",
+      "currency": "INR",
+      "highlights": [
+        "Local Markets",
+        "Historical Monuments",
+        "Cultural Hubs"
+      ],
+      "topActivities": [
+        {
+          "id": "act_kol1",
+          "title": "Kolkata Heritage Tour",
+          "category": "Culture",
+          "estimatedCost": 15,
+          "durationHours": 3
+        }
       ]
     }
   ];
