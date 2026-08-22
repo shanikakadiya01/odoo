@@ -10,6 +10,7 @@ import { AIAssistantModal } from './components/AIAssistantModal';
 import { ShareTripModal } from './components/ShareTripModal';
 import { ThemeModal } from './components/ThemeModal';
 import { AuthModal } from './components/AuthModal';
+import { FAQSection } from './components/FAQSection';
 import { Footer } from './components/Footer';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { TripProvider, useTrips } from './context/TripContext';
@@ -198,6 +199,8 @@ function MainApp() {
 
       <ThemeModal />
       <AuthModal />
+
+      <FAQSection />
 
       {/* Footer */}
       <Footer />
