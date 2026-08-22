@@ -152,6 +152,10 @@ export const HeroSection = ({
           position: relative;
           padding: 50px 0 36px 0;
           overflow: hidden;
+              background-image: url('https://www.timmo.co.in/trendybg.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
         }
         .hero-content {
           position: relative;

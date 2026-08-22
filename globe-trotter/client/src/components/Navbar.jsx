@@ -265,33 +265,40 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
           top: 73px; /* height of top bar + border */
           left: 0;
           bottom: 0;
-          width: 250px;
+          width: 50px;
           display: flex;
           flex-direction: column;
-          align-items: stretch;
+          align-items: flex-start;
           gap: 6px;
           background: var(--bg-nav);
-          padding: 24px 16px;
+          padding: 24px 12px;
           border-right: 1px solid var(--border-subtle);
           overflow-y: auto;
-          z-index: 90;
+          overflow-x: hidden;
+          z-index: 110;
+          transition: width var(--transition-normal);
+        }
+        .nav-links:hover {
+          width: 250px;
+          box-shadow: var(--shadow-lg);
         }
         .nav-btn {
           display: flex;
           align-items: center;
           justify-content: flex-start;
-          gap: 12px;
-          padding: 12px 16px;
+          gap: 14px;
+          padding: 12px 12px;
+          width: 225px;
           border-radius: var(--radius-md);
           font-family: var(--font-heading);
           font-size: 0.95rem;
           font-weight: 600;
           color: var(--text-secondary);
           background: transparent;
-
           border: 1px solid transparent;
           cursor: pointer;
           transition: all var(--transition-fast);
+          white-space: nowrap;
         }
         .nav-btn:hover {
           color: var(--text-primary);

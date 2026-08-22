@@ -232,7 +232,8 @@ function MainApp() {
         }
         .main-content {
           flex: 1;
-          padding-left: 250px;
+          padding-left: 52px;
+          transition: padding-left var(--transition-normal);
         }
         @media (max-width: 900px) {
           .main-content {
