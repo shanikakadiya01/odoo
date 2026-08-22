@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Heart, Plus, MapPin, Sparkles, Check, DollarSign } from 'lucide-react';
+import { Heart, Plus, MapPin, Check, DollarSign } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTrips } from '../context/TripContext';
 import { formatMoney } from '../services/api';
@@ -45,9 +45,6 @@ export const CityCard = ({ city, onOpenDetail }) => {
         ? city.highlights.slice(0, 2)
         : [];
 
-  const costDisplay = city.costTier || city.costIndex || '$';
-  const matchDisplay = city.matchPercent || city.popularityScore || 90;
-
   return (
     <div className="city-card glass-panel" onClick={() => onOpenDetail(city)} role="button" tabIndex={0}>
       {/* Image Banner */}
@@ -60,9 +57,8 @@ export const CityCard = ({ city, onOpenDetail }) => {
           onError={handleImageError}
         />
 
-        {/* Top Floating Badges */}
+        {/* Region Badge */}
         <div className="card-top-badges">
-          <span className="badge badge-coral">{costDisplay} Cost</span>
           <span className="badge badge-cyan">{city.region}</span>
         </div>
 
@@ -75,11 +71,6 @@ export const CityCard = ({ city, onOpenDetail }) => {
           <Heart size={18} fill={isBookmarked ? '#e11d48' : 'none'} color={isBookmarked ? '#e11d48' : '#0f172a'} />
         </button>
 
-        {/* Popularity Match Score Pill */}
-        <div className="card-popularity-pill">
-          <Sparkles size={12} className="text-amber" />
-          <span>{matchDisplay}% Match</span>
-        </div>
       </div>
 
       {/* Card Body */}

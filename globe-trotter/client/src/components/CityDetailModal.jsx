@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, MapPin, Sparkles, Clock, DollarSign, Plus, Check, Compass, Sun, Coins } from 'lucide-react';
+import { X, MapPin, Clock, DollarSign, Plus, Check, Compass, Sun, Coins } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTrips } from '../context/TripContext';
 import { formatMoney } from '../services/api';
@@ -23,9 +23,6 @@ export const CityDetailModal = ({ city, onClose }) => {
 
   if (!city) return null;
   const isBookmarked = bookmarks.includes(city._id);
-
-  const costDisplay = city.costTier || city.costIndex || '$';
-  const matchDisplay = city.matchPercent || city.popularityScore || 90;
 
   const handleAddCityStop = () => {
     addStop(city);
@@ -73,9 +70,7 @@ export const CityDetailModal = ({ city, onClose }) => {
 
           {/* City Badge Info */}
           <div className="modal-hero-badge-group">
-            <span className="badge badge-coral">{costDisplay} Cost Tier</span>
             <span className="badge badge-cyan">{city.region}</span>
-            <span className="badge badge-amber">{matchDisplay}% Match</span>
           </div>
 
           <div className="modal-hero-title-box">
