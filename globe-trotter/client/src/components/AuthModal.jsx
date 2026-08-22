@@ -162,10 +162,12 @@ export const AuthModal = () => {
       <style>{`
         .auth-modal-box {
           max-width: 480px;
+          background: #ffffff;
         }
         .auth-title {
           font-size: 1.4rem;
           font-weight: 800;
+          color: var(--text-primary);
         }
         .auth-subtitle {
           font-size: 0.85rem;
@@ -175,8 +177,8 @@ export const AuthModal = () => {
         .demo-login-callout {
           margin: 20px 24px 0 24px;
           padding: 14px 16px;
-          background: rgba(6, 182, 212, 0.08);
-          border: 1px solid rgba(6, 182, 212, 0.25);
+          background: #f0f9ff;
+          border: 1px solid #bae6fd;
           border-radius: var(--radius-md);
           display: flex;
           align-items: center;
@@ -190,8 +192,8 @@ export const AuthModal = () => {
         }
         .demo-title {
           font-size: 0.85rem;
-          font-weight: 700;
-          color: var(--accent-cyan);
+          font-weight: 800;
+          color: #0284c7;
           display: block;
         }
         .demo-desc {
@@ -239,16 +241,17 @@ export const AuthModal = () => {
         }
         .auth-error-box {
           padding: 10px 14px;
-          background: rgba(244, 63, 94, 0.15);
-          border: 1px solid rgba(244, 63, 94, 0.3);
+          background: #ffe4e6;
+          border: 1px solid #fecdd3;
           border-radius: var(--radius-sm);
-          color: var(--accent-coral);
+          color: #e11d48;
           font-size: 0.85rem;
         }
         .auth-modal-footer {
           padding: 14px 24px 20px 24px;
           text-align: center;
           border-top: 1px solid var(--border-subtle);
+          background: var(--bg-secondary);
         }
         .switch-mode-text {
           font-size: 0.85rem;
@@ -257,7 +260,7 @@ export const AuthModal = () => {
         .switch-mode-btn {
           background: transparent;
           border: none;
-          color: var(--accent-cyan);
+          color: #0284c7;
           font-weight: 700;
           cursor: pointer;
           font-size: 0.85rem;

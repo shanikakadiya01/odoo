@@ -8,10 +8,12 @@ import { BudgetCalculator } from './components/BudgetCalculator';
 import { MyTripsView } from './components/MyTripsView';
 import { AIAssistantModal } from './components/AIAssistantModal';
 import { ShareTripModal } from './components/ShareTripModal';
+import { ThemeModal } from './components/ThemeModal';
 import { AuthModal } from './components/AuthModal';
 import { Footer } from './components/Footer';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { TripProvider, useTrips } from './context/TripContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { getCities } from './services/api';
 import { Compass, Sparkles, AlertCircle, RefreshCw } from 'lucide-react';
 
@@ -66,7 +68,7 @@ function MainApp() {
 
   return (
     <div className="app-root">
-      {/* Top Glass Navigation */}
+      {/* Top Navigation */}
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -194,6 +196,7 @@ function MainApp() {
         <ShareTripModal onClose={() => setShareModalOpen(false)} />
       )}
 
+      <ThemeModal />
       <AuthModal />
 
       {/* Footer */}
@@ -222,6 +225,7 @@ function MainApp() {
         .destinations-title {
           font-size: 2rem;
           font-weight: 800;
+          color: var(--text-primary);
         }
         .destinations-subtitle {
           font-size: 0.95rem;
@@ -241,11 +245,13 @@ function MainApp() {
         .skeleton-card {
           height: 380px;
           border-radius: var(--radius-lg);
+          background: var(--bg-secondary);
+          border: 1px solid var(--border-subtle);
           animation: pulseSkeleton 1.5s ease-in-out infinite;
         }
         @keyframes pulseSkeleton {
-          0%, 100% { opacity: 0.4; }
-          50% { opacity: 0.8; }
+          0%, 100% { opacity: 0.6; }
+          50% { opacity: 0.9; }
         }
         .no-destinations-box {
           text-align: center;
@@ -254,6 +260,17 @@ function MainApp() {
           flex-direction: column;
           align-items: center;
           gap: 14px;
+          background: #ffffff;
+          border: 1px solid var(--border-subtle);
+        }
+        .no-destinations-box h3 {
+          font-size: 1.3rem;
+          font-weight: 800;
+          color: var(--text-primary);
+        }
+        .no-destinations-box p {
+          color: var(--text-secondary);
+          font-size: 0.95rem;
         }
       `}</style>
     </div>
@@ -262,10 +279,12 @@ function MainApp() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <TripProvider>
-        <MainApp />
-      </TripProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <TripProvider>
+          <MainApp />
+        </TripProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }

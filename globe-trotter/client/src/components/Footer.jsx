@@ -68,7 +68,7 @@ export const Footer = () => {
 
       <style>{`
         .site-footer {
-          background: rgba(4, 7, 13, 0.95);
+          background: var(--bg-secondary);
           border-top: 1px solid var(--border-subtle);
           padding-top: 60px;
           margin-top: 80px;
@@ -89,7 +89,7 @@ export const Footer = () => {
           width: 32px;
           height: 32px;
           border-radius: 8px;
-          background: var(--grad-sunset);
+          background: #0284c7;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -99,7 +99,7 @@ export const Footer = () => {
           font-family: var(--font-heading);
           font-weight: 800;
           font-size: 1.15rem;
-          color: #ffffff;
+          color: var(--text-primary);
         }
         .footer-tagline {
           font-size: 0.88rem;
@@ -113,23 +113,22 @@ export const Footer = () => {
           align-items: center;
           gap: 8px;
           padding: 4px 12px;
-          background: rgba(16, 185, 129, 0.1);
-          border: 1px solid rgba(16, 185, 129, 0.25);
+          background: #dcfce7;
+          border: 1px solid #bbf7d0;
           border-radius: var(--radius-full);
           font-size: 0.75rem;
-          font-weight: 600;
-          color: var(--accent-emerald);
+          font-weight: 700;
+          color: #15803d;
         }
         .live-dot {
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: var(--accent-emerald);
-          box-shadow: 0 0 8px var(--accent-emerald);
+          background: #16a34a;
         }
         .footer-heading {
           font-size: 0.95rem;
-          font-weight: 700;
+          font-weight: 800;
           text-transform: uppercase;
           letter-spacing: 0.04em;
           color: var(--text-primary);
@@ -142,14 +141,18 @@ export const Footer = () => {
           gap: 10px;
         }
         .footer-links li span {
-          color: var(--text-muted);
+          color: var(--text-secondary);
           font-size: 0.85rem;
+          font-weight: 500;
           transition: color var(--transition-fast);
         }
+        .footer-links li span:hover {
+          color: var(--text-primary);
+        }
         .footer-bottom-bar {
-          border-top: 1px solid rgba(255, 255, 255, 0.05);
+          border-top: 1px solid var(--border-subtle);
           padding: 20px 0;
-          background: rgba(0, 0, 0, 0.4);
+          background: var(--bg-primary);
         }
         .bottom-bar-inner {
           display: flex;
@@ -172,6 +175,7 @@ export const Footer = () => {
           gap: 5px;
           font-size: 0.75rem;
           color: var(--text-secondary);
+          font-weight: 600;
         }
         @media (max-width: 768px) {
           .footer-content {

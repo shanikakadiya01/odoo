@@ -181,7 +181,7 @@ export const AIAssistantModal = ({ onClose }) => {
           width: 40px;
           height: 40px;
           border-radius: var(--radius-md);
-          background: rgba(6, 182, 212, 0.15);
+          background: #e0f2fe;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -189,6 +189,7 @@ export const AIAssistantModal = ({ onClose }) => {
         .modal-heading {
           font-size: 1.25rem;
           font-weight: 800;
+          color: var(--text-primary);
         }
         .modal-subheading {
           font-size: 0.82rem;
@@ -214,7 +215,7 @@ export const AIAssistantModal = ({ onClose }) => {
         .style-chip {
           padding: 6px 14px;
           border-radius: var(--radius-full);
-          background: rgba(255, 255, 255, 0.04);
+          background: var(--bg-secondary);
           border: 1px solid var(--border-subtle);
           color: var(--text-secondary);
           font-size: 0.82rem;
@@ -222,9 +223,14 @@ export const AIAssistantModal = ({ onClose }) => {
           cursor: pointer;
           transition: all var(--transition-fast);
         }
+        .style-chip:hover {
+          background: #ffffff;
+          border-color: #cbd5e1;
+          color: var(--text-primary);
+        }
         .style-chip.active {
-          background: var(--grad-cyan);
-          border-color: transparent;
+          background: #0284c7;
+          border-color: #0284c7;
           color: #ffffff;
         }
         .ai-loading-box {
@@ -241,8 +247,9 @@ export const AIAssistantModal = ({ onClose }) => {
           gap: 12px;
           padding: 16px 20px;
           margin-bottom: 20px;
-          background: rgba(6, 182, 212, 0.08);
-          border-color: rgba(6, 182, 212, 0.25);
+          background: #f0f9ff;
+          border: 1px solid #bae6fd;
+          border-radius: var(--radius-md);
         }
         .overview-text {
           font-size: 0.95rem;
@@ -256,17 +263,21 @@ export const AIAssistantModal = ({ onClose }) => {
         }
         .ai-card {
           padding: 20px;
+          background: #ffffff;
+          border: 1px solid var(--border-subtle);
+          box-shadow: var(--shadow-sm);
         }
         .mb-3 {
           margin-bottom: 16px;
         }
         .ai-card-title {
           font-size: 1.05rem;
-          font-weight: 700;
+          font-weight: 800;
           display: flex;
           align-items: center;
           gap: 8px;
           margin-bottom: 6px;
+          color: var(--text-primary);
         }
         .ai-card-subtitle {
           font-size: 0.82rem;
@@ -283,14 +294,16 @@ export const AIAssistantModal = ({ onClose }) => {
           align-items: center;
           gap: 10px;
           padding: 8px 12px;
-          background: rgba(255, 255, 255, 0.03);
+          background: var(--bg-secondary);
+          border: 1px solid var(--border-subtle);
           border-radius: var(--radius-sm);
           cursor: pointer;
           user-select: none;
           transition: all var(--transition-fast);
         }
         .packing-item:hover {
-          background: rgba(255, 255, 255, 0.07);
+          background: #ffffff;
+          border-color: #cbd5e1;
         }
         .packing-item.checked .pack-name {
           text-decoration: line-through;
@@ -299,7 +312,8 @@ export const AIAssistantModal = ({ onClose }) => {
         .pack-name {
           flex: 1;
           font-size: 0.88rem;
-          font-weight: 500;
+          font-weight: 600;
+          color: var(--text-primary);
         }
         .pack-cat {
           font-size: 0.68rem;
@@ -324,6 +338,7 @@ export const AIAssistantModal = ({ onClose }) => {
           border-radius: 50%;
           margin-top: 6px;
           flex-shrink: 0;
+          background: #0284c7;
         }
         .animate-spin {
           animation: spin 1s linear infinite;

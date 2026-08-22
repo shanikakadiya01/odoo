@@ -388,7 +388,9 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
         .trip-header-card {
           padding: 32px;
           margin-bottom: 40px;
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: #ffffff;
+          border: 1px solid var(--border-subtle);
+          box-shadow: var(--shadow-md);
         }
         .trip-header-top {
           display: flex;
@@ -409,7 +411,7 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
           font-family: var(--font-heading);
           font-size: 2.2rem;
           font-weight: 800;
-          color: #ffffff;
+          color: var(--text-primary);
           background: transparent;
           border: none;
           border-bottom: 2px solid transparent;
@@ -424,7 +426,7 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
           font-family: var(--font-body);
           font-size: 0.95rem;
           color: var(--text-secondary);
-          background: rgba(255, 255, 255, 0.03);
+          background: var(--bg-secondary);
           border: 1px solid var(--border-subtle);
           border-radius: var(--radius-sm);
           padding: 8px 12px;
@@ -433,6 +435,7 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
         }
         .trip-desc-input:focus {
           border-color: var(--accent-cyan);
+          background: #ffffff;
         }
         .trip-actions-row {
           display: flex;
@@ -500,10 +503,14 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
           padding: 24px;
           gap: 20px;
           position: relative;
+          background: #ffffff;
+          border: 1px solid var(--border-subtle);
+          box-shadow: var(--shadow-sm);
           transition: all var(--transition-normal);
         }
         .stop-card:hover {
-          border-color: rgba(6, 182, 212, 0.3);
+          border-color: #cbd5e1;
+          box-shadow: var(--shadow-md);
         }
         .stop-route-indicator {
           display: flex;
@@ -515,7 +522,7 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
           width: 36px;
           height: 36px;
           border-radius: 50%;
-          background: var(--grad-sunset);
+          background: #0284c7;
           color: #ffffff;
           font-weight: 800;
           font-family: var(--font-heading);
@@ -523,13 +530,13 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
           align-items: center;
           justify-content: center;
           font-size: 1rem;
-          box-shadow: 0 4px 12px var(--accent-coral-glow);
+          box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
           z-index: 2;
         }
         .route-connecting-line {
           width: 3px;
           flex: 1;
-          background: linear-gradient(180deg, var(--accent-coral) 0%, var(--accent-cyan) 100%);
+          background: var(--border-subtle);
           margin-top: 8px;
           border-radius: 2px;
         }
@@ -565,7 +572,7 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
           display: flex;
           align-items: center;
           gap: 6px;
-          background: rgba(255, 255, 255, 0.04);
+          background: var(--bg-secondary);
           padding: 6px 12px;
           border-radius: var(--radius-full);
           border: 1px solid var(--border-subtle);
@@ -577,14 +584,16 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
         .stop-cost-val {
           font-weight: 700;
           font-size: 0.95rem;
+          color: #0284c7;
         }
         .stop-controls-row {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
           gap: 14px;
-          background: rgba(255, 255, 255, 0.02);
+          background: var(--bg-secondary);
           padding: 14px;
           border-radius: var(--radius-md);
+          border: 1px solid var(--border-subtle);
         }
         .stop-field {
           display: flex;
@@ -596,7 +605,7 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
           text-transform: uppercase;
           letter-spacing: 0.04em;
           color: var(--text-muted);
-          font-weight: 600;
+          font-weight: 700;
         }
         .stop-activities-section {
           margin-top: 8px;
@@ -615,7 +624,9 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
         .add-activity-form {
           padding: 14px;
           margin-bottom: 14px;
-          background: rgba(255, 255, 255, 0.04);
+          background: var(--bg-secondary);
+          border: 1px solid var(--border-subtle);
+          border-radius: var(--radius-md);
         }
         .form-row {
           display: flex;
@@ -635,9 +646,10 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
           align-items: center;
           justify-content: space-between;
           padding: 8px 14px;
-          background: rgba(255, 255, 255, 0.04);
+          background: #ffffff;
           border: 1px solid var(--border-subtle);
           border-radius: var(--radius-md);
+          box-shadow: var(--shadow-sm);
         }
         .activity-item-left {
           display: flex;
@@ -647,7 +659,7 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
         }
         .activity-item-name {
           font-size: 0.85rem;
-          font-weight: 500;
+          font-weight: 600;
           color: var(--text-primary);
           overflow: hidden;
           text-overflow: ellipsis;
@@ -661,6 +673,7 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
         .activity-item-price {
           font-size: 0.85rem;
           font-weight: 700;
+          color: #0284c7;
         }
         .activity-del-btn {
           background: transparent;
@@ -684,6 +697,8 @@ export const TripBuilder = ({ onOpenShare, onOpenAIAssistant, onBrowseCities }) 
           flex-direction: column;
           align-items: center;
           gap: 16px;
+          background: #ffffff;
+          border: 1px solid var(--border-subtle);
         }
         @media (max-width: 768px) {
           .stop-card {

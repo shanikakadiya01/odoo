@@ -28,7 +28,6 @@ export const CityCard = ({ city, onOpenDetail }) => {
       {/* Image Banner */}
       <div className="card-image-wrapper">
         <img src={city.imageUrl} alt={city.name} className="card-image" loading="lazy" />
-        <div className="card-gradient-overlay" />
 
         {/* Top Floating Badges */}
         <div className="card-top-badges">
@@ -42,7 +41,7 @@ export const CityCard = ({ city, onOpenDetail }) => {
           onClick={handleBookmarkToggle}
           title={isBookmarked ? 'Remove from Saved' : 'Save to Favorites'}
         >
-          <Heart size={18} fill={isBookmarked ? '#f43f5e' : 'none'} color={isBookmarked ? '#f43f5e' : '#ffffff'} />
+          <Heart size={18} fill={isBookmarked ? '#e11d48' : 'none'} color={isBookmarked ? '#e11d48' : '#0f172a'} />
         </button>
 
         {/* Popularity Score Pill */}
@@ -111,22 +110,26 @@ export const CityCard = ({ city, onOpenDetail }) => {
 
       <style>{`
         .city-card {
+          background: #ffffff;
           overflow: hidden;
           cursor: pointer;
           transition: all var(--transition-normal);
           display: flex;
           flex-direction: column;
+          border: 1px solid var(--border-subtle);
+          box-shadow: var(--shadow-sm);
         }
         .city-card:hover {
-          transform: translateY(-6px);
-          border-color: rgba(6, 182, 212, 0.4);
-          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 20px rgba(6, 182, 212, 0.15);
+          transform: translateY(-4px);
+          border-color: #cbd5e1;
+          box-shadow: var(--shadow-lg);
         }
         .card-image-wrapper {
           position: relative;
           width: 100%;
           height: 210px;
           overflow: hidden;
+          background: #f1f5f9;
         }
         .card-image {
           width: 100%;
@@ -135,12 +138,7 @@ export const CityCard = ({ city, onOpenDetail }) => {
           transition: transform 500ms ease;
         }
         .city-card:hover .card-image {
-          transform: scale(1.06);
-        }
-        .card-gradient-overlay {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(180deg, rgba(7, 10, 18, 0.2) 0%, rgba(13, 18, 31, 0.9) 100%);
+          transform: scale(1.04);
         }
         .card-top-badges {
           position: absolute;
@@ -157,20 +155,21 @@ export const CityCard = ({ city, onOpenDetail }) => {
           width: 36px;
           height: 36px;
           border-radius: var(--radius-full);
-          background: rgba(7, 10, 18, 0.65);
+          background: rgba(255, 255, 255, 0.92);
           backdrop-filter: blur(8px);
-          border: 1px solid rgba(255, 255, 255, 0.15);
+          border: 1px solid var(--border-subtle);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
           z-index: 2;
           transition: all var(--transition-fast);
+          box-shadow: var(--shadow-sm);
         }
         .card-bookmark-btn:hover {
-          background: rgba(244, 63, 94, 0.2);
-          border-color: var(--accent-coral);
-          transform: scale(1.1);
+          background: #ffe4e6;
+          border-color: #fca5a5;
+          transform: scale(1.08);
         }
         .card-popularity-pill {
           position: absolute;
@@ -180,17 +179,18 @@ export const CityCard = ({ city, onOpenDetail }) => {
           align-items: center;
           gap: 5px;
           padding: 4px 10px;
-          background: rgba(13, 18, 31, 0.85);
+          background: rgba(255, 255, 255, 0.94);
           backdrop-filter: blur(8px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 1px solid var(--border-subtle);
           border-radius: var(--radius-full);
           font-size: 0.75rem;
           font-weight: 700;
           color: var(--text-primary);
           z-index: 2;
+          box-shadow: var(--shadow-sm);
         }
         .text-amber {
-          color: var(--accent-amber);
+          color: #d97706;
         }
         .card-body {
           padding: 20px;
@@ -198,6 +198,7 @@ export const CityCard = ({ city, onOpenDetail }) => {
           flex-direction: column;
           flex: 1;
           gap: 14px;
+          background: #ffffff;
         }
         .card-title-row {
           display: flex;
@@ -227,13 +228,13 @@ export const CityCard = ({ city, onOpenDetail }) => {
           font-size: 0.68rem;
           color: var(--text-muted);
           text-transform: uppercase;
-          font-weight: 600;
+          font-weight: 700;
         }
         .budget-tag-val {
           font-family: var(--font-heading);
           font-size: 1.05rem;
           font-weight: 800;
-          color: var(--accent-amber);
+          color: #0284c7;
         }
         .card-activities-preview {
           display: flex;
@@ -260,10 +261,10 @@ export const CityCard = ({ city, onOpenDetail }) => {
           color: var(--text-secondary);
         }
         .act-dot {
-          width: 5px;
-          height: 5px;
+          width: 6px;
+          height: 6px;
           border-radius: 50%;
-          background: var(--accent-cyan);
+          background: #0284c7;
         }
         .act-title {
           overflow: hidden;
@@ -280,7 +281,11 @@ export const CityCard = ({ city, onOpenDetail }) => {
         }
         .view-details-btn {
           font-size: 0.82rem;
-          padding: 6px 0;
+          padding: 6px 8px;
+          color: var(--text-secondary);
+        }
+        .view-details-btn:hover {
+          color: var(--text-primary);
         }
         .add-stop-btn {
           padding: 7px 16px;

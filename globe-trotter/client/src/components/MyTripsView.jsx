@@ -264,6 +264,7 @@ export const MyTripsView = ({ onSelectTrip, onSwitchToBuilder, onOpenShare, onBr
           font-weight: 800;
           line-height: 1.15;
           margin-bottom: 6px;
+          color: var(--text-primary);
         }
         .my-trips-subtitle {
           font-size: 1rem;
@@ -282,21 +283,23 @@ export const MyTripsView = ({ onSelectTrip, onSwitchToBuilder, onOpenShare, onBr
           text-align: center;
           justify-content: center;
           gap: 14px;
-          border: 2px dashed rgba(6, 182, 212, 0.4);
+          background: #ffffff;
+          border: 2px dashed #cbd5e1;
+          border-radius: var(--radius-lg);
           cursor: pointer;
           min-height: 320px;
           transition: all var(--transition-normal);
         }
         .create-trip-card:hover {
-          border-color: var(--accent-cyan);
-          background: rgba(6, 182, 212, 0.06);
+          border-color: #0284c7;
+          background: #f0f9ff;
           transform: translateY(-4px);
         }
         .create-trip-icon-wrap {
           width: 60px;
           height: 60px;
           border-radius: 50%;
-          background: rgba(6, 182, 212, 0.15);
+          background: #e0f2fe;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -304,6 +307,7 @@ export const MyTripsView = ({ onSelectTrip, onSwitchToBuilder, onOpenShare, onBr
         .create-card-title {
           font-size: 1.3rem;
           font-weight: 800;
+          color: var(--text-primary);
         }
         .create-card-desc {
           font-size: 0.85rem;
@@ -314,11 +318,15 @@ export const MyTripsView = ({ onSelectTrip, onSwitchToBuilder, onOpenShare, onBr
           display: flex;
           flex-direction: column;
           overflow: hidden;
+          background: #ffffff;
+          border: 1px solid var(--border-subtle);
+          border-radius: var(--radius-lg);
+          box-shadow: var(--shadow-sm);
           transition: all var(--transition-normal);
         }
         .trip-card:hover {
           transform: translateY(-4px);
-          border-color: rgba(255, 255, 255, 0.2);
+          border-color: #cbd5e1;
           box-shadow: var(--shadow-lg);
         }
         .trip-card-image-wrap {
@@ -326,16 +334,12 @@ export const MyTripsView = ({ onSelectTrip, onSwitchToBuilder, onOpenShare, onBr
           width: 100%;
           height: 160px;
           overflow: hidden;
+          background: #f1f5f9;
         }
         .trip-card-image {
           width: 100%;
           height: 100%;
           object-fit: cover;
-        }
-        .trip-card-overlay {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(180deg, rgba(7, 10, 18, 0.2) 0%, rgba(13, 18, 31, 0.9) 100%);
         }
         .trip-card-badge-top {
           position: absolute;
@@ -351,6 +355,7 @@ export const MyTripsView = ({ onSelectTrip, onSwitchToBuilder, onOpenShare, onBr
           flex-direction: column;
           flex: 1;
           gap: 12px;
+          background: #ffffff;
         }
         .trip-name-title {
           font-size: 1.3rem;

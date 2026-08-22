@@ -319,6 +319,7 @@ export const BudgetCalculator = ({ onSwitchToBuilder, onBrowseCities }) => {
           font-weight: 800;
           line-height: 1.15;
           margin-bottom: 6px;
+          color: var(--text-primary);
         }
         .budget-subtitle {
           font-size: 1rem;
@@ -335,6 +336,9 @@ export const BudgetCalculator = ({ onSwitchToBuilder, onBrowseCities }) => {
           display: flex;
           flex-direction: column;
           gap: 8px;
+          background: #ffffff;
+          border: 1px solid var(--border-subtle);
+          box-shadow: var(--shadow-sm);
         }
         .metric-box-header {
           display: flex;
@@ -356,15 +360,16 @@ export const BudgetCalculator = ({ onSwitchToBuilder, onBrowseCities }) => {
           align-items: center;
           justify-content: center;
         }
-        .bg-cyan { background: rgba(6, 182, 212, 0.15); }
-        .bg-amber { background: rgba(245, 158, 11, 0.15); }
-        .bg-violet { background: rgba(139, 92, 246, 0.15); }
-        .bg-coral { background: rgba(244, 63, 94, 0.15); }
-        .text-violet { color: var(--accent-violet); }
+        .bg-cyan { background: #e0f2fe; }
+        .bg-amber { background: #fef3c7; }
+        .bg-violet { background: #ede9fe; }
+        .bg-coral { background: #ffe4e6; }
+        .text-violet { color: #7c3aed; }
         .metric-box-number {
           font-family: var(--font-heading);
           font-size: 2rem;
           font-weight: 900;
+          color: var(--text-primary);
         }
         .metric-box-hint {
           font-size: 0.8rem;
@@ -378,26 +383,31 @@ export const BudgetCalculator = ({ onSwitchToBuilder, onBrowseCities }) => {
           align-items: center;
           gap: 5px;
           font-size: 0.8rem;
-          font-weight: 600;
+          font-weight: 700;
         }
-        .status-ok { color: var(--accent-emerald); }
-        .status-over { color: var(--accent-coral); }
+        .status-ok { color: #059669; }
+        .status-over { color: #e11d48; }
         .status-neutral { color: var(--text-muted); }
         .progress-panel {
           padding: 20px 24px;
           margin-bottom: 24px;
+          background: #ffffff;
+          border: 1px solid var(--border-subtle);
+          box-shadow: var(--shadow-sm);
         }
         .progress-label-row {
           display: flex;
           justify-content: space-between;
           font-size: 0.9rem;
-          font-weight: 600;
+          font-weight: 700;
           margin-bottom: 10px;
+          color: var(--text-primary);
         }
         .progress-track {
           width: 100%;
           height: 12px;
-          background: rgba(255, 255, 255, 0.06);
+          background: var(--bg-secondary);
+          border: 1px solid var(--border-subtle);
           border-radius: var(--radius-full);
           overflow: hidden;
         }
@@ -406,8 +416,8 @@ export const BudgetCalculator = ({ onSwitchToBuilder, onBrowseCities }) => {
           border-radius: var(--radius-full);
           transition: width 600ms ease;
         }
-        .fill-ok { background: var(--grad-cyan); }
-        .fill-over { background: var(--grad-sunset); }
+        .fill-ok { background: #0284c7; }
+        .fill-over { background: #e11d48; }
         .breakdown-details-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
@@ -416,10 +426,13 @@ export const BudgetCalculator = ({ onSwitchToBuilder, onBrowseCities }) => {
         }
         .detail-card {
           padding: 24px;
+          background: #ffffff;
+          border: 1px solid var(--border-subtle);
+          box-shadow: var(--shadow-sm);
         }
         .card-heading {
           font-size: 1.15rem;
-          font-weight: 700;
+          font-weight: 800;
           color: var(--text-primary);
           display: flex;
           align-items: center;
@@ -440,7 +453,8 @@ export const BudgetCalculator = ({ onSwitchToBuilder, onBrowseCities }) => {
           display: flex;
           justify-content: space-between;
           font-size: 0.9rem;
-          font-weight: 600;
+          font-weight: 700;
+          color: var(--text-secondary);
         }
         .cat-name {
           display: flex;
@@ -450,7 +464,8 @@ export const BudgetCalculator = ({ onSwitchToBuilder, onBrowseCities }) => {
         .mini-track {
           width: 100%;
           height: 8px;
-          background: rgba(255, 255, 255, 0.05);
+          background: var(--bg-secondary);
+          border: 1px solid var(--border-subtle);
           border-radius: var(--radius-full);
           overflow: hidden;
         }
@@ -467,8 +482,9 @@ export const BudgetCalculator = ({ onSwitchToBuilder, onBrowseCities }) => {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 10px 14px;
-          background: rgba(255, 255, 255, 0.03);
+          padding: 12px 16px;
+          background: var(--bg-secondary);
+          border: 1px solid var(--border-subtle);
           border-radius: var(--radius-md);
         }
         .stop-table-name {
@@ -480,10 +496,10 @@ export const BudgetCalculator = ({ onSwitchToBuilder, onBrowseCities }) => {
           width: 24px;
           height: 24px;
           border-radius: 50%;
-          background: rgba(6, 182, 212, 0.2);
-          color: var(--accent-cyan);
+          background: #e0f2fe;
+          color: #0284c7;
           font-size: 0.75rem;
-          font-weight: 700;
+          font-weight: 800;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -502,9 +518,13 @@ export const BudgetCalculator = ({ onSwitchToBuilder, onBrowseCities }) => {
         .stop-table-total {
           font-weight: 800;
           font-size: 1rem;
+          color: #0284c7;
         }
         .tips-panel {
           padding: 28px;
+          background: #ffffff;
+          border: 1px solid var(--border-subtle);
+          box-shadow: var(--shadow-sm);
         }
         .tips-header {
           display: flex;
@@ -515,6 +535,7 @@ export const BudgetCalculator = ({ onSwitchToBuilder, onBrowseCities }) => {
         .tips-title {
           font-size: 1.2rem;
           font-weight: 800;
+          color: var(--text-primary);
         }
         .tips-grid {
           display: grid;
@@ -523,7 +544,7 @@ export const BudgetCalculator = ({ onSwitchToBuilder, onBrowseCities }) => {
         }
         .tip-card {
           padding: 16px;
-          background: rgba(255, 255, 255, 0.03);
+          background: var(--bg-secondary);
           border: 1px solid var(--border-subtle);
           border-radius: var(--radius-md);
         }
@@ -545,6 +566,8 @@ export const BudgetCalculator = ({ onSwitchToBuilder, onBrowseCities }) => {
           flex-direction: column;
           align-items: center;
           gap: 16px;
+          background: #ffffff;
+          border: 1px solid var(--border-subtle);
         }
       `}</style>
     </section>

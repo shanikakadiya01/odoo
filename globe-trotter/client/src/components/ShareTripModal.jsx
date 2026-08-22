@@ -148,6 +148,9 @@ export const ShareTripModal = ({ onClose }) => {
           display: flex;
           flex-direction: column;
           gap: 10px;
+          background: var(--bg-secondary);
+          border: 1px solid var(--border-subtle);
+          border-radius: var(--radius-md);
         }
         .share-label {
           font-size: 0.8rem;
@@ -163,7 +166,9 @@ export const ShareTripModal = ({ onClose }) => {
         .share-url-input {
           font-family: monospace;
           font-size: 0.9rem;
-          background: rgba(0, 0, 0, 0.3);
+          background: #ffffff;
+          border: 1px solid var(--border-subtle);
+          color: var(--text-primary);
         }
         .copy-btn {
           padding: 10px 20px;
@@ -176,6 +181,9 @@ export const ShareTripModal = ({ onClose }) => {
           padding: 24px;
           max-height: 380px;
           overflow-y: auto;
+          background: #ffffff;
+          border: 1px solid var(--border-subtle);
+          border-radius: var(--radius-md);
         }
         .preview-top {
           display: flex;
@@ -188,6 +196,7 @@ export const ShareTripModal = ({ onClose }) => {
         .preview-trip-title {
           font-size: 1.6rem;
           font-weight: 800;
+          color: var(--text-primary);
         }
         .preview-trip-desc {
           font-size: 0.9rem;
@@ -215,14 +224,18 @@ export const ShareTripModal = ({ onClose }) => {
           display: flex;
           gap: 12px;
           align-items: flex-start;
+          padding: 12px;
+          background: var(--bg-secondary);
+          border: 1px solid var(--border-subtle);
+          border-radius: var(--radius-md);
         }
         .preview-stop-badge {
           width: 28px;
           height: 28px;
           border-radius: 50%;
-          background: var(--grad-sunset);
+          background: #0284c7;
           color: #ffffff;
-          font-weight: 700;
+          font-weight: 800;
           font-size: 0.85rem;
           display: flex;
           align-items: center;
@@ -245,6 +258,7 @@ export const ShareTripModal = ({ onClose }) => {
         .preview-stop-city {
           font-size: 1.05rem;
           font-weight: 700;
+          color: var(--text-primary);
         }
         .preview-stop-dates {
           font-size: 0.78rem;
@@ -261,8 +275,10 @@ export const ShareTripModal = ({ onClose }) => {
           gap: 6px;
           font-size: 0.8rem;
           padding: 4px 10px;
-          background: rgba(255, 255, 255, 0.03);
+          background: #ffffff;
+          border: 1px solid var(--border-subtle);
           border-radius: var(--radius-sm);
+          color: var(--text-secondary);
         }
       `}</style>
     </div>

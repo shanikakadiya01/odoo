@@ -22,10 +22,6 @@ export const HeroSection = ({
 
   return (
     <section className="hero-container">
-      {/* Background ambient lighting effects */}
-      <div className="hero-glow hero-glow-1" />
-      <div className="hero-glow hero-glow-2" />
-
       <div className="container hero-content">
         {/* Top Tag */}
         <div className="hero-tag animate-float">
@@ -143,29 +139,8 @@ export const HeroSection = ({
       <style>{`
         .hero-container {
           position: relative;
-          padding: 60px 0 40px 0;
+          padding: 50px 0 36px 0;
           overflow: hidden;
-        }
-        .hero-glow {
-          position: absolute;
-          border-radius: 50%;
-          filter: blur(100px);
-          pointer-events: none;
-          z-index: 0;
-        }
-        .hero-glow-1 {
-          width: 500px;
-          height: 500px;
-          background: rgba(6, 182, 212, 0.12);
-          top: -100px;
-          left: -100px;
-        }
-        .hero-glow-2 {
-          width: 450px;
-          height: 450px;
-          background: rgba(244, 63, 94, 0.1);
-          top: 50px;
-          right: -80px;
         }
         .hero-content {
           position: relative;
@@ -180,31 +155,32 @@ export const HeroSection = ({
           align-items: center;
           gap: 8px;
           padding: 6px 16px;
-          background: rgba(6, 182, 212, 0.1);
-          border: 1px solid rgba(6, 182, 212, 0.3);
+          background: #e0f2fe;
+          border: 1px solid #bae6fd;
           border-radius: var(--radius-full);
           font-size: 0.82rem;
-          font-weight: 600;
-          color: var(--accent-cyan);
-          margin-bottom: 24px;
+          font-weight: 700;
+          color: #0369a1;
+          margin-bottom: 20px;
           letter-spacing: 0.02em;
         }
         .hero-tag-icon {
-          color: var(--accent-cyan);
+          color: #0284c7;
         }
         .hero-title {
           font-size: 3.2rem;
           font-weight: 800;
           letter-spacing: -0.03em;
-          margin-bottom: 20px;
+          margin-bottom: 18px;
           max-width: 920px;
           line-height: 1.15;
+          color: var(--text-primary);
         }
         .hero-subtitle {
-          font-size: 1.1rem;
+          font-size: 1.08rem;
           color: var(--text-secondary);
           max-width: 740px;
-          margin-bottom: 40px;
+          margin-bottom: 36px;
           line-height: 1.6;
         }
         .search-filter-card {
@@ -214,8 +190,10 @@ export const HeroSection = ({
           display: flex;
           flex-direction: column;
           gap: 18px;
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: #ffffff;
+          box-shadow: var(--shadow-md);
+          border: 1px solid var(--border-subtle);
+          border-radius: var(--radius-lg);
         }
         .search-input-wrapper {
           position: relative;
@@ -226,25 +204,25 @@ export const HeroSection = ({
         .search-icon {
           position: absolute;
           left: 18px;
-          color: var(--accent-cyan);
+          color: #0284c7;
           pointer-events: none;
         }
         .search-input {
           width: 100%;
-          padding: 16px 45px 16px 52px;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid var(--border-subtle);
+          padding: 15px 45px 15px 52px;
+          background: var(--bg-secondary);
+          border: 1.5px solid var(--border-subtle);
           border-radius: var(--radius-md);
           font-family: var(--font-body);
-          font-size: 1.05rem;
+          font-size: 1.02rem;
           color: var(--text-primary);
           outline: none;
           transition: all var(--transition-normal);
         }
         .search-input:focus {
-          border-color: var(--accent-cyan);
-          background: rgba(255, 255, 255, 0.09);
-          box-shadow: 0 0 0 3px var(--accent-cyan-glow);
+          border-color: #0284c7;
+          background: #ffffff;
+          box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
         }
         .search-clear-btn {
           position: absolute;
@@ -289,7 +267,7 @@ export const HeroSection = ({
         .filter-chip {
           padding: 6px 14px;
           border-radius: var(--radius-full);
-          background: rgba(255, 255, 255, 0.04);
+          background: var(--bg-secondary);
           border: 1px solid var(--border-subtle);
           color: var(--text-secondary);
           font-size: 0.85rem;
@@ -299,14 +277,15 @@ export const HeroSection = ({
           transition: all var(--transition-fast);
         }
         .filter-chip:hover {
-          background: rgba(255, 255, 255, 0.09);
+          background: #ffffff;
+          border-color: #cbd5e1;
           color: var(--text-primary);
         }
         .filter-chip.active {
-          background: var(--grad-cyan);
-          border-color: transparent;
+          background: #0284c7;
+          border-color: #0284c7;
           color: #ffffff;
-          box-shadow: 0 2px 10px var(--accent-cyan-glow);
+          box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
         }
         .filter-secondary-row {
           display: flex;
@@ -329,7 +308,7 @@ export const HeroSection = ({
         .budget-chip {
           padding: 5px 12px;
           border-radius: var(--radius-sm);
-          background: rgba(255, 255, 255, 0.04);
+          background: var(--bg-secondary);
           border: 1px solid var(--border-subtle);
           color: var(--text-secondary);
           font-size: 0.82rem;
@@ -338,21 +317,23 @@ export const HeroSection = ({
           transition: all var(--transition-fast);
         }
         .budget-chip:hover {
-          background: rgba(255, 255, 255, 0.08);
+          background: #ffffff;
+          border-color: #cbd5e1;
           color: var(--text-primary);
         }
         .budget-chip.active {
-          background: rgba(245, 158, 11, 0.2);
-          border-color: var(--accent-amber);
-          color: var(--accent-amber);
+          background: #fef3c7;
+          border-color: #f59e0b;
+          color: #b45309;
         }
         .sort-select {
           padding: 6px 12px;
-          background: var(--bg-glass);
+          background: #ffffff;
           border: 1px solid var(--border-subtle);
           border-radius: var(--radius-md);
           color: var(--text-primary);
           font-size: 0.85rem;
+          font-weight: 600;
           outline: none;
           cursor: pointer;
         }
@@ -362,7 +343,7 @@ export const HeroSection = ({
           gap: 6px;
           padding: 6px 14px;
           border-radius: var(--radius-full);
-          background: rgba(255, 255, 255, 0.04);
+          background: var(--bg-secondary);
           border: 1px solid var(--border-subtle);
           color: var(--text-secondary);
           font-size: 0.85rem;
@@ -371,34 +352,39 @@ export const HeroSection = ({
           transition: all var(--transition-fast);
         }
         .bookmark-toggle-btn:hover {
-          border-color: rgba(244, 63, 94, 0.4);
+          border-color: #fca5a5;
         }
         .bookmark-toggle-btn.active {
-          background: rgba(244, 63, 94, 0.15);
-          border-color: var(--accent-coral);
-          color: var(--accent-coral);
+          background: #ffe4e6;
+          border-color: #fecdd3;
+          color: #e11d48;
         }
         .hero-stats-row {
           display: flex;
           align-items: center;
           gap: 24px;
-          margin-top: 32px;
+          margin-top: 28px;
         }
         .stat-pill {
           display: flex;
           align-items: center;
           gap: 8px;
           font-size: 0.85rem;
+          background: #ffffff;
+          padding: 6px 16px;
+          border-radius: var(--radius-full);
+          border: 1px solid var(--border-subtle);
+          box-shadow: var(--shadow-sm);
         }
         .stat-value {
           font-family: var(--font-heading);
           font-weight: 800;
           font-size: 1.1rem;
-          color: var(--accent-cyan);
+          color: #0284c7;
         }
         .stat-label {
-          color: var(--text-muted);
-          font-weight: 500;
+          color: var(--text-secondary);
+          font-weight: 600;
         }
         @media (max-width: 768px) {
           .hero-title {

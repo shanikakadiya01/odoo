@@ -202,16 +202,12 @@ export const CityDetailModal = ({ city, onClose }) => {
           height: 280px;
           overflow: hidden;
           border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+          background: #f1f5f9;
         }
         .modal-city-hero-img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-        }
-        .modal-city-hero-overlay {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(180deg, rgba(7, 10, 18, 0.3) 0%, rgba(13, 18, 31, 0.95) 100%);
         }
         .modal-close-btn {
           position: absolute;
@@ -220,20 +216,22 @@ export const CityDetailModal = ({ city, onClose }) => {
           width: 38px;
           height: 38px;
           border-radius: var(--radius-full);
-          background: rgba(7, 10, 18, 0.7);
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          color: #ffffff;
+          background: rgba(255, 255, 255, 0.9);
+          backdrop-filter: blur(8px);
+          border: 1px solid var(--border-subtle);
+          color: var(--text-primary);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
           z-index: 10;
           transition: all var(--transition-fast);
+          box-shadow: var(--shadow-sm);
         }
         .modal-close-btn:hover {
-          background: var(--accent-coral);
-          transform: rotate(90deg);
+          background: #ffe4e6;
+          color: #e11d48;
+          border-color: #fca5a5;
         }
         .modal-hero-badge-group {
           position: absolute;
@@ -248,11 +246,17 @@ export const CityDetailModal = ({ city, onClose }) => {
           bottom: 20px;
           left: 24px;
           z-index: 2;
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(8px);
+          padding: 10px 20px;
+          border-radius: var(--radius-md);
+          border: 1px solid var(--border-subtle);
+          box-shadow: var(--shadow-md);
         }
         .modal-city-name {
-          font-size: 2.4rem;
+          font-size: 2rem;
           font-weight: 900;
-          color: #ffffff;
+          color: var(--text-primary);
           line-height: 1.1;
         }
         .modal-city-country {
@@ -260,8 +264,9 @@ export const CityDetailModal = ({ city, onClose }) => {
           align-items: center;
           gap: 6px;
           color: var(--text-secondary);
-          font-size: 1.05rem;
+          font-size: 0.95rem;
           margin-top: 4px;
+          font-weight: 600;
         }
         .city-metrics-bar {
           display: flex;
@@ -269,7 +274,9 @@ export const CityDetailModal = ({ city, onClose }) => {
           justify-content: space-between;
           padding: 16px 24px;
           margin-bottom: 24px;
-          background: rgba(255, 255, 255, 0.03);
+          background: var(--bg-secondary);
+          border: 1px solid var(--border-subtle);
+          border-radius: var(--radius-md);
         }
         .metric-col {
           display: flex;
@@ -281,11 +288,11 @@ export const CityDetailModal = ({ city, onClose }) => {
           text-transform: uppercase;
           letter-spacing: 0.04em;
           color: var(--text-muted);
-          font-weight: 600;
+          font-weight: 700;
         }
         .metric-value {
           font-family: var(--font-heading);
-          font-weight: 700;
+          font-weight: 800;
           font-size: 1.05rem;
           color: var(--text-primary);
         }
@@ -296,7 +303,7 @@ export const CityDetailModal = ({ city, onClose }) => {
         }
         .section-subtitle {
           font-size: 1.15rem;
-          font-weight: 700;
+          font-weight: 800;
           color: var(--text-primary);
           margin-bottom: 10px;
         }
@@ -318,12 +325,12 @@ export const CityDetailModal = ({ city, onClose }) => {
           align-items: center;
           gap: 6px;
           padding: 6px 14px;
-          background: rgba(255, 255, 255, 0.05);
+          background: var(--bg-secondary);
           border: 1px solid var(--border-subtle);
           border-radius: var(--radius-full);
           font-size: 0.85rem;
           color: var(--text-primary);
-          font-weight: 500;
+          font-weight: 600;
         }
         .activities-title-row {
           display: flex;
@@ -333,12 +340,11 @@ export const CityDetailModal = ({ city, onClose }) => {
         }
         .activities-count-badge {
           font-size: 0.8rem;
-          color: var(--accent-cyan);
-          font-weight: 600;
+          color: #0284c7;
+          font-weight: 700;
         }
         .activities-grid {
           display: grid;
-          grid-template-grid-columns: repeat(auto-fill, minmax(260px, 1fr));
           grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
           gap: 14px;
         }
@@ -347,7 +353,10 @@ export const CityDetailModal = ({ city, onClose }) => {
           display: flex;
           flex-direction: column;
           gap: 10px;
-          background: rgba(255, 255, 255, 0.03);
+          background: #ffffff;
+          border: 1px solid var(--border-subtle);
+          border-radius: var(--radius-md);
+          box-shadow: var(--shadow-sm);
         }
         .act-header {
           display: flex;
@@ -360,10 +369,11 @@ export const CityDetailModal = ({ city, onClose }) => {
           gap: 4px;
           font-size: 0.75rem;
           color: var(--text-muted);
+          font-weight: 600;
         }
         .act-item-title {
           font-size: 0.95rem;
-          font-weight: 600;
+          font-weight: 700;
           color: var(--text-primary);
           line-height: 1.35;
         }
@@ -372,8 +382,8 @@ export const CityDetailModal = ({ city, onClose }) => {
           align-items: center;
           justify-content: space-between;
           margin-top: auto;
-          padding-top: 8px;
-          border-top: 1px solid rgba(255, 255, 255, 0.05);
+          padding-top: 10px;
+          border-top: 1px solid var(--border-subtle);
         }
         .act-cost {
           display: flex;
@@ -382,10 +392,13 @@ export const CityDetailModal = ({ city, onClose }) => {
         .act-cost-label {
           font-size: 0.68rem;
           color: var(--text-muted);
+          font-weight: 700;
+          text-transform: uppercase;
         }
         .act-cost-val {
-          font-weight: 700;
+          font-weight: 800;
           font-size: 0.95rem;
+          color: #0284c7;
         }
         .act-add-btn {
           padding: 4px 12px;

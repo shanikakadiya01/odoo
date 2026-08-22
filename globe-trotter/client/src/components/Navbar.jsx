@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Compass, Globe, MapPin, Calendar, PieChart, Sparkles, User, LogOut, Heart, Plus, ChevronDown } from 'lucide-react';
+import { Compass, Globe, MapPin, Calendar, PieChart, Sparkles, User, LogOut, Heart, Plus, ChevronDown, Palette } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTrips } from '../context/TripContext';
+import { useTheme } from '../context/ThemeContext';
 import { CURRENCY_RATES } from '../services/api';
 
 export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssistant }) => {
   const { user, currency, setCurrency, bookmarks, openAuth, logout } = useAuth();
   const { activeTrip } = useTrips();
+  const { setThemeModalOpen } = useTheme();
   const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
@@ -16,7 +18,7 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
         {/* Brand Logo */}
         <div className="nav-brand" onClick={() => setActiveTab('explore')} role="button" tabIndex={0}>
           <div className="brand-icon-wrapper">
-            <Globe className="brand-icon animate-float" size={24} />
+            <Globe className="brand-icon animate-float" size={22} />
           </div>
           <div className="brand-text">
             <span className="brand-title">
@@ -66,6 +68,16 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
 
         {/* Right Actions */}
         <div className="nav-actions">
+          {/* Theme Palette Switcher */}
+          <button
+            className="btn btn-glass btn-sm theme-toggle-btn"
+            onClick={() => setThemeModalOpen(true)}
+            title="Choose Background Theme"
+          >
+            <Palette size={16} className="text-cyan" />
+            <span className="hide-mobile">Theme</span>
+          </button>
+
           {/* AI Travel Assistant Trigger */}
           <button className="btn btn-glass btn-sm ai-btn" onClick={onOpenAIAssistant} title="AI Travel Advisor">
             <Sparkles size={16} className="text-cyan" />
@@ -176,9 +188,9 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
           position: sticky;
           top: 0;
           z-index: 100;
-          background: rgba(7, 10, 18, 0.85);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+          background: var(--bg-nav);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
           border-bottom: 1px solid var(--border-subtle);
           transition: all var(--transition-normal);
         }
@@ -197,14 +209,14 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
           user-select: none;
         }
         .brand-icon-wrapper {
-          width: 42px;
-          height: 42px;
+          width: 40px;
+          height: 40px;
           border-radius: 12px;
-          background: var(--grad-sunset);
+          background: #0284c7;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 4px 14px var(--accent-coral-glow);
+          box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
         }
         .brand-icon {
           color: #ffffff;
@@ -213,8 +225,8 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
           font-family: var(--font-heading);
           font-weight: 800;
           font-size: 1.25rem;
-          letter-spacing: 0.05em;
-          color: #ffffff;
+          letter-spacing: 0.04em;
+          color: var(--text-primary);
         }
         .brand-tagline {
           display: block;
@@ -226,8 +238,8 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
         .nav-links {
           display: flex;
           align-items: center;
-          gap: 6px;
-          background: rgba(255, 255, 255, 0.03);
+          gap: 4px;
+          background: var(--bg-secondary);
           padding: 4px;
           border-radius: var(--radius-full);
           border: 1px solid var(--border-subtle);
@@ -243,19 +255,20 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
           font-weight: 600;
           color: var(--text-secondary);
           background: transparent;
-          border: none;
+          border: 1px solid transparent;
           cursor: pointer;
           transition: all var(--transition-fast);
         }
         .nav-btn:hover {
           color: var(--text-primary);
-          background: rgba(255, 255, 255, 0.06);
+          background: #ffffff;
         }
         .nav-btn.active {
-          color: #ffffff;
-          background: rgba(6, 182, 212, 0.18);
-          border: 1px solid rgba(6, 182, 212, 0.35);
-          box-shadow: 0 2px 10px rgba(6, 182, 212, 0.2);
+          color: #0369a1;
+          background: #ffffff;
+          border: 1px solid var(--border-subtle);
+          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+          font-weight: 700;
         }
         .nav-badge {
           background: var(--accent-coral);
@@ -268,14 +281,19 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
         .nav-actions {
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: 10px;
+        }
+        .theme-toggle-btn {
+          border-color: var(--border-subtle);
+        }
+        .theme-toggle-btn:hover {
+          border-color: #0284c7;
         }
         .ai-btn {
-          border-color: rgba(6, 182, 212, 0.3);
+          border-color: var(--border-subtle);
         }
         .ai-btn:hover {
           border-color: var(--accent-cyan);
-          box-shadow: var(--shadow-glow-cyan);
         }
         .text-cyan {
           color: var(--accent-cyan);
@@ -291,7 +309,7 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
           align-items: center;
           gap: 6px;
           padding: 7px 12px;
-          background: var(--bg-glass);
+          background: #ffffff;
           border: 1px solid var(--border-subtle);
           border-radius: var(--radius-md);
           color: var(--text-primary);
@@ -299,10 +317,11 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
           font-weight: 600;
           cursor: pointer;
           transition: all var(--transition-fast);
+          box-shadow: var(--shadow-sm);
         }
         .currency-btn:hover {
-          background: rgba(255, 255, 255, 0.09);
-          border-color: rgba(255, 255, 255, 0.2);
+          background: var(--bg-secondary);
+          border-color: #cbd5e1;
         }
         .currency-symbol {
           color: var(--accent-amber);
@@ -315,6 +334,9 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
           width: 200px;
           padding: 6px;
           z-index: 110;
+          background: #ffffff;
+          border: 1px solid var(--border-subtle);
+          box-shadow: var(--shadow-lg);
         }
         .currency-option {
           display: flex;
@@ -332,12 +354,12 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
           transition: all var(--transition-fast);
         }
         .currency-option:hover {
-          background: rgba(255, 255, 255, 0.08);
+          background: var(--bg-secondary);
           color: var(--text-primary);
         }
         .currency-option.selected {
-          background: rgba(6, 182, 212, 0.15);
-          color: var(--accent-cyan);
+          background: #e0f2fe;
+          color: #0369a1;
           font-weight: 600;
         }
         .currency-option-symbol {
@@ -357,15 +379,16 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
           display: flex;
           align-items: center;
           gap: 8px;
-          background: var(--bg-glass);
+          background: #ffffff;
           border: 1px solid var(--border-subtle);
           padding: 4px 10px 4px 4px;
           border-radius: var(--radius-full);
           cursor: pointer;
           transition: all var(--transition-fast);
+          box-shadow: var(--shadow-sm);
         }
         .user-avatar-btn:hover {
-          border-color: rgba(255, 255, 255, 0.2);
+          border-color: #cbd5e1;
         }
         .user-avatar {
           width: 32px;
@@ -385,6 +408,9 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
           width: 220px;
           padding: 8px;
           z-index: 110;
+          background: #ffffff;
+          border: 1px solid var(--border-subtle);
+          box-shadow: var(--shadow-lg);
         }
         .user-dropdown-header {
           padding: 8px 10px;
@@ -420,7 +446,7 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
           transition: all var(--transition-fast);
         }
         .user-dropdown-item:hover {
-          background: rgba(255, 255, 255, 0.08);
+          background: var(--bg-secondary);
           color: var(--text-primary);
         }
         .auth-buttons {
