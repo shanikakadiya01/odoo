@@ -1,0 +1,9 @@
+{
+  "name": "globe-trotter",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --prefix server",
+    "start": "npm run start --prefix server"
+  }
+}
