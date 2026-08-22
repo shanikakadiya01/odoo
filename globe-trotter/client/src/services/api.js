@@ -181,10 +181,10 @@ export const apiDemoLogin = async () => {
   return { user: demoUser, token: 'demo_jwt_token_local' };
 };
 
-export const apiRegister = async (name, email, password, preferredCurrency) => {
+export const apiRegister = async (userData) => {
   const res = await fetchWithFallback('/auth/register', {
     method: 'POST',
-    body: JSON.stringify({ name, email, password, preferredCurrency })
+    body: JSON.stringify(userData)
   });
   if (res && res.user) {
     if (res.token) localStorage.setItem('gt_token', res.token);
@@ -192,10 +192,11 @@ export const apiRegister = async (name, email, password, preferredCurrency) => {
   }
   const newUser = {
     _id: `user_${Date.now()}`,
-    name,
-    email,
+    firstName: userData.firstName || '',
+    lastName: userData.lastName || '',
+    email: userData.email || '',
     avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80',
-    preferredCurrency: preferredCurrency || 'USD',
+    preferredCurrency: userData.preferredCurrency || 'USD',
     savedDestinations: []
   };
   localStorage.setItem('gt_token', 'user_jwt_token_local');
