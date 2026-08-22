@@ -4,14 +4,28 @@ import { useAuth } from '../context/AuthContext';
 import { useTrips } from '../context/TripContext';
 import { formatMoney } from '../services/api';
 
+const FALLBACK_DESTINATION_IMAGE = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80';
+
 export const CityDetailModal = ({ city, onClose }) => {
   const { currency, bookmarks, toggleBookmark } = useAuth();
   const { addStop, activeTrip, addActivity } = useTrips();
   const [addedStopSuccess, setAddedStopSuccess] = useState(false);
   const [addedActivityIds, setAddedActivityIds] = useState([]);
+  const [imageSrc, setImageSrc] = useState(city?.imageUrl || FALLBACK_DESTINATION_IMAGE);
+
+  React.useEffect(() => {
+    if (city?.imageUrl) {
+      setImageSrc(city.imageUrl);
+    } else {
+      setImageSrc(FALLBACK_DESTINATION_IMAGE);
+    }
+  }, [city?.imageUrl]);
 
   if (!city) return null;
   const isBookmarked = bookmarks.includes(city._id);
+
+  const costDisplay = city.costTier || city.costIndex || '$';
+  const matchDisplay = city.matchPercent || city.popularityScore || 90;
 
   const handleAddCityStop = () => {
     addStop(city);
@@ -44,7 +58,12 @@ export const CityDetailModal = ({ city, onClose }) => {
       <div className="modal-content modal-content-lg" onClick={(e) => e.stopPropagation()}>
         {/* Modal Header Cover */}
         <div className="modal-city-hero">
-          <img src={city.imageUrl} alt={city.name} className="modal-city-hero-img" />
+          <img
+            src={imageSrc}
+            alt={city.name}
+            className="modal-city-hero-img"
+            onError={() => setImageSrc(FALLBACK_DESTINATION_IMAGE)}
+          />
           <div className="modal-city-hero-overlay" />
 
           {/* Close Button */}
@@ -54,9 +73,9 @@ export const CityDetailModal = ({ city, onClose }) => {
 
           {/* City Badge Info */}
           <div className="modal-hero-badge-group">
-
+            <span className="badge badge-coral">{costDisplay} Cost Tier</span>
             <span className="badge badge-cyan">{city.region}</span>
-            <span className="badge badge-amber">{city.popularityScore}% Popularity</span>
+            <span className="badge badge-amber">{matchDisplay}% Match</span>
           </div>
 
           <div className="modal-hero-title-box">
