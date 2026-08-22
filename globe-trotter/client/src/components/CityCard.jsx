@@ -1,15 +1,24 @@
-import React, { useState } from 'react';
-import { Heart, Plus, MapPin, Sparkles, Clock, Check, DollarSign } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Heart, Plus, MapPin, Sparkles, Check, DollarSign } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTrips } from '../context/TripContext';
 import { formatMoney } from '../services/api';
+
+// Reliable high-res travel destination placeholder fallback
+const FALLBACK_DESTINATION_IMAGE = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80';
 
 export const CityCard = ({ city, onOpenDetail }) => {
   const { currency, bookmarks, toggleBookmark } = useAuth();
   const { addStop, activeTrip } = useTrips();
   const [addedAnimation, setAddedAnimation] = useState(false);
+  const [imageSrc, setImageSrc] = useState(city.imageUrl || FALLBACK_DESTINATION_IMAGE);
 
   const isBookmarked = bookmarks.includes(city._id);
+
+  // Synchronize image state if city prop updates
+  useEffect(() => {
+    setImageSrc(city.imageUrl || FALLBACK_DESTINATION_IMAGE);
+  }, [city.imageUrl]);
 
   const handleAddStop = (e) => {
     e.stopPropagation();
@@ -23,15 +32,37 @@ export const CityCard = ({ city, onOpenDetail }) => {
     toggleBookmark(city._id);
   };
 
+  const handleImageError = () => {
+    setImageSrc(FALLBACK_DESTINATION_IMAGE);
+  };
+
+  // Resolve highlights from either topHighlights or topActivities
+  const highlightsList = (city.topHighlights && city.topHighlights.length > 0)
+    ? city.topHighlights.slice(0, 2).map((h) => typeof h === 'string' ? h : h.title)
+    : (city.topActivities && city.topActivities.length > 0)
+      ? city.topActivities.slice(0, 2).map((a) => a.title)
+      : (city.highlights && city.highlights.length > 0)
+        ? city.highlights.slice(0, 2)
+        : [];
+
+  const costDisplay = city.costTier || city.costIndex || '$';
+  const matchDisplay = city.matchPercent || city.popularityScore || 90;
+
   return (
     <div className="city-card glass-panel" onClick={() => onOpenDetail(city)} role="button" tabIndex={0}>
       {/* Image Banner */}
       <div className="card-image-wrapper">
-        <img src={city.imageUrl} alt={city.name} className="card-image" loading="lazy" />
+        <img
+          src={imageSrc}
+          alt={city.name}
+          className="card-image"
+          loading="lazy"
+          onError={handleImageError}
+        />
 
         {/* Top Floating Badges */}
         <div className="card-top-badges">
-
+          <span className="badge badge-coral">{costDisplay} Cost</span>
           <span className="badge badge-cyan">{city.region}</span>
         </div>
 
@@ -44,6 +75,11 @@ export const CityCard = ({ city, onOpenDetail }) => {
           <Heart size={18} fill={isBookmarked ? '#e11d48' : 'none'} color={isBookmarked ? '#e11d48' : '#0f172a'} />
         </button>
 
+        {/* Popularity Match Score Pill */}
+        <div className="card-popularity-pill">
+          <Sparkles size={12} className="text-amber" />
+          <span>{matchDisplay}% Match</span>
+        </div>
       </div>
 
       {/* Card Body */}
@@ -62,15 +98,15 @@ export const CityCard = ({ city, onOpenDetail }) => {
           </div>
         </div>
 
-        {/* Activity Pills */}
-        {city.topActivities && city.topActivities.length > 0 && (
+        {/* Top Highlights Preview */}
+        {highlightsList.length > 0 && (
           <div className="card-activities-preview">
             <span className="activities-header-label">Top Highlights:</span>
             <div className="activity-tags-list">
-              {city.topActivities.slice(0, 2).map((act, i) => (
+              {highlightsList.map((highlightText, i) => (
                 <div key={i} className="activity-mini-tag">
                   <span className="act-dot" />
-                  <span className="act-title">{act.title}</span>
+                  <span className="act-title" title={highlightText}>{highlightText}</span>
                 </div>
               ))}
             </div>
@@ -113,6 +149,7 @@ export const CityCard = ({ city, onOpenDetail }) => {
           flex-direction: column;
           border: 1px solid var(--border-subtle);
           box-shadow: var(--shadow-sm);
+          border-radius: var(--radius-lg);
         }
         .city-card:hover {
           transform: translateY(-4px);
@@ -260,6 +297,7 @@ export const CityCard = ({ city, onOpenDetail }) => {
           height: 6px;
           border-radius: 50%;
           background: #0284c7;
+          flex-shrink: 0;
         }
         .act-title {
           overflow: hidden;
