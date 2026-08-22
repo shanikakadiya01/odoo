@@ -232,6 +232,12 @@ function MainApp() {
         }
         .main-content {
           flex: 1;
+          padding-left: 250px;
+        }
+        @media (max-width: 900px) {
+          .main-content {
+            padding-left: 0;
+          }
         }
         .destinations-section {
           padding: 20px 0 80px 0;

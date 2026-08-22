@@ -13,8 +13,9 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
   return (
-    <header className="navbar-container">
-      <div className="container nav-content">
+    <>
+      <header className="navbar-container">
+        <div className="container nav-content">
         {/* Brand Logo */}
         <div className="nav-brand" onClick={() => setActiveTab('explore')} role="button" tabIndex={0}>
           <div className="brand-icon-wrapper">
@@ -27,68 +28,6 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
             <span className="brand-tagline">Multi-City Travel Planner</span>
           </div>
         </div>
-
-        {/* Navigation Links */}
-        <nav className="nav-links">
-          <button
-            className={`nav-btn ${activeTab === 'explore' ? 'active' : ''}`}
-            onClick={() => setActiveTab('explore')}
-          >
-            <Compass size={18} />
-            <span>Explore Cities</span>
-          </button>
-
-          <button
-            className={`nav-btn ${activeTab === 'builder' ? 'active' : ''}`}
-            onClick={() => setActiveTab('builder')}
-          >
-            <MapPin size={18} />
-            <span>Itinerary Builder</span>
-            {activeTrip?.stops?.length > 0 && (
-              <span className="nav-badge">{activeTrip.stops.length}</span>
-            )}
-          </button>
-
-          <button
-            className={`nav-btn ${activeTab === 'budget' ? 'active' : ''}`}
-            onClick={() => setActiveTab('budget')}
-          >
-            <PieChart size={18} />
-            <span>Budget Analyzer</span>
-          </button>
-
-          <button
-            className={`nav-btn ${activeTab === 'trips' ? 'active' : ''}`}
-            onClick={() => setActiveTab('trips')}
-          >
-            <Calendar size={18} />
-            <span>My Trips</span>
-          </button>
-
-          <button
-            className={`nav-btn ${activeTab === 'community' ? 'active' : ''}`}
-            onClick={() => setActiveTab('community')}
-          >
-            <User size={18} />
-            <span>Community</span>
-          </button>
-
-          <button
-            className={`nav-btn ${activeTab === 'calendar' ? 'active' : ''}`}
-            onClick={() => setActiveTab('calendar')}
-          >
-            <CalendarDays size={18} />
-            <span>Calendar</span>
-          </button>
-
-          <button
-            className={`nav-btn ${activeTab === 'admin' ? 'active' : ''}`}
-            onClick={() => setActiveTab('admin')}
-          >
-            <Shield size={18} />
-            <span>Admin</span>
-          </button>
-        </nav>
 
         {/* Right Actions */}
         <div className="nav-actions">
@@ -206,6 +145,69 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
           )}
         </div>
       </div>
+    </header>
+
+    {/* Sidebar Navigation Links */}
+    <nav className="nav-links">
+      <button
+        className={`nav-btn ${activeTab === 'explore' ? 'active' : ''}`}
+        onClick={() => setActiveTab('explore')}
+      >
+        <Compass size={18} />
+        <span>Explore Cities</span>
+      </button>
+
+      <button
+        className={`nav-btn ${activeTab === 'builder' ? 'active' : ''}`}
+        onClick={() => setActiveTab('builder')}
+      >
+        <MapPin size={18} />
+        <span>Itinerary Builder</span>
+        {activeTrip?.stops?.length > 0 && (
+          <span className="nav-badge">{activeTrip.stops.length}</span>
+        )}
+      </button>
+
+      <button
+        className={`nav-btn ${activeTab === 'budget' ? 'active' : ''}`}
+        onClick={() => setActiveTab('budget')}
+      >
+        <PieChart size={18} />
+        <span>Budget Analyzer</span>
+      </button>
+
+      <button
+        className={`nav-btn ${activeTab === 'trips' ? 'active' : ''}`}
+        onClick={() => setActiveTab('trips')}
+      >
+        <Calendar size={18} />
+        <span>My Trips</span>
+      </button>
+
+      <button
+        className={`nav-btn ${activeTab === 'community' ? 'active' : ''}`}
+        onClick={() => setActiveTab('community')}
+      >
+        <User size={18} />
+        <span>Community</span>
+      </button>
+
+      <button
+        className={`nav-btn ${activeTab === 'calendar' ? 'active' : ''}`}
+        onClick={() => setActiveTab('calendar')}
+      >
+        <CalendarDays size={18} />
+        <span>Calendar</span>
+      </button>
+
+      <button
+        className={`nav-btn ${activeTab === 'admin' ? 'active' : ''}`}
+        onClick={() => setActiveTab('admin')}
+      >
+        <Shield size={18} />
+        <span>Admin</span>
+      </button>
+    </nav>
 
       <style>{`
         .navbar-container {
@@ -260,25 +262,34 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
           letter-spacing: 0.02em;
         }
         .nav-links {
+          position: fixed;
+          top: 73px; /* height of top bar + border */
+          left: 0;
+          bottom: 0;
+          width: 250px;
           display: flex;
-          align-items: center;
-          gap: 4px;
-          background: var(--bg-secondary);
-          padding: 4px;
-          border-radius: var(--radius-full);
-          border: 1px solid var(--border-subtle);
+          flex-direction: column;
+          align-items: stretch;
+          gap: 6px;
+          background: var(--bg-nav);
+          padding: 24px 16px;
+          border-right: 1px solid var(--border-subtle);
+          overflow-y: auto;
+          z-index: 90;
         }
         .nav-btn {
           display: flex;
           align-items: center;
-          gap: 8px;
-          padding: 8px 16px;
-          border-radius: var(--radius-full);
+          justify-content: flex-start;
+          gap: 12px;
+          padding: 12px 16px;
+          border-radius: var(--radius-md);
           font-family: var(--font-heading);
-          font-size: 0.9rem;
+          font-size: 0.95rem;
           font-weight: 600;
           color: var(--text-secondary);
           background: transparent;
+
           border: 1px solid transparent;
           cursor: pointer;
           transition: all var(--transition-fast);
@@ -487,6 +498,6 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenNewTrip, onOpenAIAssista
           }
         }
       `}</style>
-    </header>
+    </>
   );
 };
